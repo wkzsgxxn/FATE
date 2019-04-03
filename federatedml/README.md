@@ -11,5 +11,8 @@ you can set up the parameters of data io as well as the algorithm itself. Here i
 
 4. [Secure Federated Transfer Learning](./ftl)
 
+### Full Document Link
+[Document](../doc/doc_files/index.html)
+
 
 More available algorithms are coming soon.
