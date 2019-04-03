@@ -11,6 +11,8 @@
             "WorkFlowParam": {
                 "train_input_table": ["breast_guest_cross_validation_logistic_regression_example_standalone_20190402203829"],
                 "train_input_namespace": ["example_data_namespace"],
+                "model_table": ["homo_lr_guest_model_table"],
+                "model_namespace": ["example_data_namespace"],
                 "data_input_table": ["breast_guest_cross_validation_logistic_regression_example_standalone_20190402203829"],
                 "data_input_namespace": ["example_data_namespace"]
             },
@@ -25,6 +27,8 @@
             "WorkFlowParam": {
                 "train_input_table": ["breast_guest_cross_validation_logistic_regression_example_standalone_20190402203829"],
                 "train_input_namespace": ["example_data_namespace"],
+                "model_table": ["homo_lr_host_model_table"],
+                "model_namespace": ["example_data_namespace"],
                 "data_input_table": ["breast_guest_cross_validation_logistic_regression_example_standalone_20190402203829"],
                 "data_input_namespace": ["example_data_namespace"]
             },
@@ -37,6 +41,8 @@
             "WorkFlowParam": {
                 "train_input_table": [""],
                 "train_input_namespace": ["example_data_namespace"],
+                "model_table": ["homo_lr_arbiter_model_table"],
+                "model_namespace": ["example_data_namespace"],
                 "data_input_table": [""],
                 "data_input_namespace": ["example_data_namespace"]
             },

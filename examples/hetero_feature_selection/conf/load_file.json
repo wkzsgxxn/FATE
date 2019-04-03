@@ -3,7 +3,7 @@
   "head": 1,
   "partition": 10,
   "table_name": "TO SET",
-  "namespace": "example",
+  "namespace": "example_data_namespace",
   "work_mode": "TO SET",
   "scene_id": "TO SET",
   "role": "TO SET",

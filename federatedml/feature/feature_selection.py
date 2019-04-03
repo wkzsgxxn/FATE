@@ -22,7 +22,7 @@ import math
 from arch.api.proto.feature_selection_param_pb2 import FeatureSelectionFilterParam, FeatureSelectionParam
 from arch.api.utils import log_utils
 from federatedml.feature.binning import QuantileBinning
-from federatedml.param.param import FeatureSelectionParam, IVSelectionParam, FeatureBinningParam, UniqueValueParam
+from federatedml.param.param import IVSelectionParam, FeatureBinningParam, UniqueValueParam
 from federatedml.statistic.statics import MultivariateStatisticalSummary
 from federatedml.util import consts
 from federatedml.util.fate_operator import get_features_shape
@@ -278,6 +278,21 @@ class IVPercentileFilter(FilterMethod):
 
 
 class CoeffOfVarValueFilter(FilterMethod):
+    """
+    Drop the columns if their coefficient of variance is smaller than a threshold
+
+    Parameters
+    ----------
+    param : CoeffOfVarSelectionParam object,
+            Parameters that user set.
+
+    select_cols : int or list of int
+            Specify which column(s) need to apply binning. -1 means do binning for all columns.
+
+    statics_obj : MultivariateStatisticalSummary object, default: None
+            Use to get mean and std_variance of DTable. If none, it will new this object and do the statistic.
+
+    """
     def __init__(self, param, select_cols, statics_obj=None):
         self.value_threshold = param.value_threshold
         self.select_cols = select_cols
@@ -312,6 +327,19 @@ class CoeffOfVarValueFilter(FilterMethod):
 
 
 class OutlierFilter(FilterMethod):
+    """
+    Given percentile and threshold, drop the columns that the value of this percentile of data is larger than
+    the upper threshold. This is useful when you want drop some columns with too large outliers.
+
+    Parameters
+    ----------
+    param : OutlierColsSelectionParam object,
+            Parameters that user set, contains percentile and upper_threshold.
+
+    select_cols : int or list of int
+            Specify which column(s) need to apply binning. -1 means do binning for all columns.
+
+    """
     def __init__(self, params, select_cols):
         self.percentile = params.percentile
         self.upper_threshold = params.upper_threshold
@@ -352,7 +380,7 @@ class FeatureSelection(object):
 
     """
 
-    def __init__(self, params: FeatureSelectionParam):
+    def __init__(self, params):
         self.filter_methods = params.filter_method
         self.select_cols = params.select_cols
         self.left_cols = None

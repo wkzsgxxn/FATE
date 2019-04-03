@@ -24,7 +24,7 @@
     "WorkFlowParam": {
         "method": "feature_select",
         "train_input_table": "TO SET",
-        "train_input_namespace": "example",
+        "train_input_namespace": "example_data_namespace",
         "work_mode": "TO SET",
         "model_table": "feature_selection_guest_model_table",
         "model_namespace": "feature_selection_namespace",
