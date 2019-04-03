@@ -1,0 +1,38 @@
+federatedml.logistic\_regression.hetero\_logistic\_regression package
+=====================================================================
+
+Submodules
+----------
+
+federatedml.logistic\_regression.hetero\_logistic\_regression.hetero\_lr\_arbiter module
+----------------------------------------------------------------------------------------
+
+.. automodule:: federatedml.logistic_regression.hetero_logistic_regression.hetero_lr_arbiter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.logistic\_regression.hetero\_logistic\_regression.hetero\_lr\_guest module
+--------------------------------------------------------------------------------------
+
+.. automodule:: federatedml.logistic_regression.hetero_logistic_regression.hetero_lr_guest
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.logistic\_regression.hetero\_logistic\_regression.hetero\_lr\_host module
+-------------------------------------------------------------------------------------
+
+.. automodule:: federatedml.logistic_regression.hetero_logistic_regression.hetero_lr_host
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: federatedml.logistic_regression.hetero_logistic_regression
+    :members:
+    :undoc-members:
+    :show-inheritance:

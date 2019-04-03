@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>federatedml.feature package &mdash; FATE 0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FATE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">federatedml.feature package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature.binning">federatedml.feature.binning module</a></li>
+<li><a class="reference internal" href="#federatedml-feature-feature-selection-module">federatedml.feature.feature_selection module</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature.imputer">federatedml.feature.imputer module</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature.instance">federatedml.feature.instance module</a></li>
+<li><a class="reference internal" href="#federatedml-feature-min-max-scaler-module">federatedml.feature.min_max_scaler module</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature.quantile">federatedml.feature.quantile module</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature.quantile_summaries">federatedml.feature.quantile_summaries module</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature.sampler">federatedml.feature.sampler module</a></li>
+<li><a class="reference internal" href="#federatedml-feature-scaler-module">federatedml.feature.scaler module</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature.sparse_vector">federatedml.feature.sparse_vector module</a></li>
+<li><a class="reference internal" href="#federatedml-feature-standard-scaler-module">federatedml.feature.standard_scaler module</a></li>
+<li><a class="reference internal" href="#module-federatedml.feature">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FATE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>federatedml.feature package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/federatedml.feature.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="federatedml-feature-package">
+<h1>federatedml.feature package<a class="headerlink" href="#federatedml-feature-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="federatedml.feature.hetero_feature_binning.html">federatedml.feature.hetero_feature_binning package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_binning.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_binning.html#federatedml-feature-hetero-feature-binning-hetero-binning-guest-module">federatedml.feature.hetero_feature_binning.hetero_binning_guest module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_binning.html#federatedml-feature-hetero-feature-binning-hetero-binning-host-module">federatedml.feature.hetero_feature_binning.hetero_binning_host module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_binning.html#module-federatedml.feature.hetero_feature_binning">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="federatedml.feature.hetero_feature_selection.html">federatedml.feature.hetero_feature_selection package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_selection.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_selection.html#federatedml-feature-hetero-feature-selection-feature-selection-guest-module">federatedml.feature.hetero_feature_selection.feature_selection_guest module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_selection.html#federatedml-feature-hetero-feature-selection-feature-selection-host-module">federatedml.feature.hetero_feature_selection.feature_selection_host module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.hetero_feature_selection.html#module-federatedml.feature.hetero_feature_selection">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="federatedml.feature.test.html">federatedml.feature.test package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#federatedml-feature-test-feature-select-test-module">federatedml.feature.test.feature_select_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#module-federatedml.feature.test.instance_test">federatedml.feature.test.instance_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#federatedml-feature-test-quantile-binning-test-module">federatedml.feature.test.quantile_binning_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#module-federatedml.feature.test.quantile_summaries_test">federatedml.feature.test.quantile_summaries_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#module-federatedml.feature.test.quantile_test">federatedml.feature.test.quantile_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#module-federatedml.feature.test.sampler_test">federatedml.feature.test.sampler_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#module-federatedml.feature.test.sparse_vector_test">federatedml.feature.test.sparse_vector_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.feature.test.html#module-federatedml.feature.test">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.feature.binning">
+<span id="federatedml-feature-binning-module"></span><h2>federatedml.feature.binning module<a class="headerlink" href="#module-federatedml.feature.binning" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.feature.binning.Binning">
+<em class="property">class </em><code class="descclassname">federatedml.feature.binning.</code><code class="descname">Binning</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.Binning.add_label_in_partition">
+<em class="property">static </em><code class="descname">add_label_in_partition</code><span class="sig-paren">(</span><em>data_bin_with_table</em>, <em>total_bin</em>, <em>cols</em>, <em>encryptor=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.add_label_in_partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.add_label_in_partition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add all label, so that become convenient to calculate woe and iv</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_bin_with_table</strong> (<em>DTable</em>) – The input data, the DTable is like:
+(id, (1, 5, 2, 6, 0, …), y, 1 - y)</li>
+<li><strong>total_bin</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>&gt; 0</em>) – Specify the largest bin number</li>
+<li><strong>cols</strong> (<em>list of int</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>,</em>) – Specify which columns need to calculated. -1 represent for all columns</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p><strong>result_sum</strong> –</p>
+<dl class="docutils">
+<dt>[[(event_count, non_event_count), (same sum in second_bin), (in third bin) … (first feature in cols)],</dt>
+<dd><p class="first last">[(event_count, non_event_count), … (second feature in cols)],
+…]</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the result DTable. It is like:</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.Binning.aggregate_partition_label">
+<em class="property">static </em><code class="descname">aggregate_partition_label</code><span class="sig-paren">(</span><em>sum1</em>, <em>sum2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.aggregate_partition_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.aggregate_partition_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used in reduce function. Aggregate the result calculate from each partition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sum1</strong> (<em>DTable.</em>) – It is like:
+[[(event_count, non_event_count), (same sum in second_bin), (in third bin) … (first feature in cols)],
+[(event_count, non_event_count), … (second feature in cols)],
+…]</li>
+<li><strong>sum2</strong> (<em>DTable</em>) – Same as sum1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Merged sum. The format is same as sum1.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.Binning.bin_data">
+<em class="property">static </em><code class="descname">bin_data</code><span class="sig-paren">(</span><em>instance</em>, <em>split_points</em>, <em>cols</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.bin_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.bin_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.Binning.binning">
+<code class="descname">binning</code><span class="sig-paren">(</span><em>data_instances</em>, <em>cols</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.binning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.binning" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.Binning.cal_iv_woe">
+<em class="property">static </em><code class="descname">cal_iv_woe</code><span class="sig-paren">(</span><em>result_counts</em>, <em>adjustment_factor</em>, <em>split_points=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.cal_iv_woe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.cal_iv_woe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given event count information calculate iv information</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result_counts</strong> (<em>DTable.</em>) – It is like:
+[[(event_sum, non-event_sum), (same sum in second_bin), (in third bin) … (first col in cols)],
+[(event_sum, non-event_sum), … (second col in cols)],
+…]</li>
+<li><strong>adjustment_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – The adjustment factor when calculating WOE</li>
+<li><strong>split_points</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – Use to display in the final result</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of IVAttributes object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.Binning.cal_local_iv">
+<code class="descname">cal_local_iv</code><span class="sig-paren">(</span><em>data_instances</em>, <em>cols</em>, <em>split_points=None</em>, <em>label_table=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.cal_local_iv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.cal_local_iv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.Binning.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data_instances</em>, <em>split_points=None</em>, <em>cols=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the binning method</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_instances</strong> (<em>DTable</em>) – The input data</li>
+<li><strong>split_points</strong> (<em>list.</em>) – <p>Each row represent for the split points for a feature. The element in each row represent for
+the corresponding split point.
+e.g.
+split_points = [[0.1, 0.2, 0.3, 0.4 …],    # The first feature</p>
+<blockquote>
+<div>[1, 2, 3, 4, …],           # The second feature
+…]                         # Other features</div></blockquote>
+</li>
+<li><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><em>list of int</em>) – Specify which column(s) need to apply binning. -1 means do binning for all columns.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p><strong>data_bin_table</strong> – The element in each row represent for the corresponding bin number this feature belongs to.
+e.g. for each row, it could be:
+(1, 5, 2, 6, 0, …)    # Each number represent for the bin number it belongs to. The order is the</p>
+<blockquote>
+<div><p># same as the order of cols.</p>
+</div></blockquote>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">DTable.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.Binning.woe_1d">
+<em class="property">static </em><code class="descname">woe_1d</code><span class="sig-paren">(</span><em>data_event_count</em>, <em>adjustment_factor</em>, <em>split_points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#Binning.woe_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.Binning.woe_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given event and non-event count in one column, calculate its woe value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_event_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – [(event_sum, non-event_sum), (same sum in second_bin), (in third bin) …]</li>
+<li><strong>adjustment_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – The adjustment factor when calculating WOE</li>
+<li><strong>split_points</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – Use to display in the final result</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>IVAttributes</strong> – Stored information that related iv and woe value</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)">object</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.feature.binning.IVAttributes">
+<em class="property">class </em><code class="descclassname">federatedml.feature.binning.</code><code class="descname">IVAttributes</code><span class="sig-paren">(</span><em>woe_array</em>, <em>iv_array</em>, <em>event_count_array</em>, <em>non_event_count_array</em>, <em>event_rate_array</em>, <em>non_event_rate_array</em>, <em>split_points</em>, <em>iv=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#IVAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.IVAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="federatedml.feature.binning.IVAttributes.bin_nums">
+<code class="descname">bin_nums</code><a class="headerlink" href="#federatedml.feature.binning.IVAttributes.bin_nums" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.IVAttributes.display_result">
+<code class="descname">display_result</code><span class="sig-paren">(</span><em>display_results</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#IVAttributes.display_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.IVAttributes.display_result" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="federatedml.feature.binning.IVAttributes.is_woe_monotonic">
+<code class="descname">is_woe_monotonic</code><a class="headerlink" href="#federatedml.feature.binning.IVAttributes.is_woe_monotonic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the woe is monotonic or not</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.IVAttributes.reconstruct">
+<code class="descname">reconstruct</code><span class="sig-paren">(</span><em>iv_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#IVAttributes.reconstruct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.IVAttributes.reconstruct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.IVAttributes.result_dict">
+<code class="descname">result_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#IVAttributes.result_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.IVAttributes.result_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.feature.binning.QuantileBinning">
+<em class="property">class </em><code class="descclassname">federatedml.feature.binning.</code><code class="descname">QuantileBinning</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#QuantileBinning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.QuantileBinning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.feature.binning.Binning" title="federatedml.feature.binning.Binning"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.feature.binning.Binning</span></code></a></p>
+<p>After quantile binning, the numbers of elements in each binning are equal.</p>
+<p>The result of this algorithm has the following deterministic bound:
+If the data_instances has N elements and if we request the quantile at probability <cite>p</cite> up to error
+<cite>err</cite>, then the algorithm will return a sample <cite>x</cite> from the data so that the <em>exact</em> rank
+of <cite>x</cite> is close to (p * N).
+More precisely,</p>
+<dl class="docutils">
+<dt>{{{</dt>
+<dd>floor((p - 2 * err) * N) &lt;= rank(x) &lt;= ceil((p + 2 * err) * N)</dd>
+</dl>
+<p>}}}</p>
+<p>This method implements a variation of the Greenwald-Khanna algorithm (with some speed
+optimizations).</p>
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.QuantileBinning.approxiQuantile">
+<em class="property">static </em><code class="descname">approxiQuantile</code><span class="sig-paren">(</span><em>data_instances</em>, <em>cols</em>, <em>params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#QuantileBinning.approxiQuantile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.QuantileBinning.approxiQuantile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.QuantileBinning.binning">
+<code class="descname">binning</code><span class="sig-paren">(</span><em>data_instances</em>, <em>cols</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#QuantileBinning.binning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.QuantileBinning.binning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the binning method</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_instances</strong> (<em>DTable</em>) – The input data</li>
+<li><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><em>list of int</em>) – Specify which column(s) need to apply binning. -1 means do binning for all columns.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>Each row represent for the split points for a feature. The element in each row represent for
+the corresponding split point.
+e.g.
+split_points = [[0.1, 0.2, 0.3, 0.4 …],    # The first feature</p>
+<blockquote>
+<div><p>[1, 2, 3, 4, …],           # The second feature
+…]                         # Other features</p>
+</div></blockquote>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">split_points, 2-dimension list.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.QuantileBinning.insert_datas">
+<em class="property">static </em><code class="descname">insert_datas</code><span class="sig-paren">(</span><em>data_instances</em>, <em>summary_list</em>, <em>cols</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#QuantileBinning.insert_datas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.QuantileBinning.insert_datas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.binning.QuantileBinning.merge_summary_list">
+<em class="property">static </em><code class="descname">merge_summary_list</code><span class="sig-paren">(</span><em>s_list1</em>, <em>s_list2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#QuantileBinning.merge_summary_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.QuantileBinning.merge_summary_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.binning.QuantileBinning.query_quantile_point">
+<code class="descname">query_quantile_point</code><span class="sig-paren">(</span><em>data_instances</em>, <em>cols</em>, <em>query_points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/binning.html#QuantileBinning.query_quantile_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.binning.QuantileBinning.query_quantile_point" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="federatedml-feature-feature-selection-module">
+<h2>federatedml.feature.feature_selection module<a class="headerlink" href="#federatedml-feature-feature-selection-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.feature.imputer">
+<span id="federatedml-feature-imputer-module"></span><h2>federatedml.feature.imputer module<a class="headerlink" href="#module-federatedml.feature.imputer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.feature.imputer.Imputer">
+<em class="property">class </em><code class="descclassname">federatedml.feature.imputer.</code><code class="descname">Imputer</code><span class="sig-paren">(</span><em>imputer_value_list=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/imputer.html#Imputer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.imputer.Imputer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.feature.imputer.Imputer.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>replace_method=None</em>, <em>replace_value=None</em>, <em>output_format='origin'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/imputer.html#Imputer.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.imputer.Imputer.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.imputer.Imputer.get_imputer_value_list">
+<code class="descname">get_imputer_value_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/imputer.html#Imputer.get_imputer_value_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.imputer.Imputer.get_imputer_value_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.imputer.Imputer.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>data</em>, <em>replace_method=None</em>, <em>transform_value=None</em>, <em>output_format='origin'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/imputer.html#Imputer.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.imputer.Imputer.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.feature.instance">
+<span id="federatedml-feature-instance-module"></span><h2>federatedml.feature.instance module<a class="headerlink" href="#module-federatedml.feature.instance" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.feature.instance.Instance">
+<em class="property">class </em><code class="descclassname">federatedml.feature.instance.</code><code class="descname">Instance</code><span class="sig-paren">(</span><em>inst_id=None</em>, <em>weight=1.0</em>, <em>features=None</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/instance.html#Instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.instance.Instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.feature.instance.Instance.set_feature">
+<code class="descname">set_feature</code><span class="sig-paren">(</span><em>features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/instance.html#Instance.set_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.instance.Instance.set_feature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.instance.Instance.set_label">
+<code class="descname">set_label</code><span class="sig-paren">(</span><em>label=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/instance.html#Instance.set_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.instance.Instance.set_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.instance.Instance.set_weight">
+<code class="descname">set_weight</code><span class="sig-paren">(</span><em>weight=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/instance.html#Instance.set_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.instance.Instance.set_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="federatedml-feature-min-max-scaler-module">
+<h2>federatedml.feature.min_max_scaler module<a class="headerlink" href="#federatedml-feature-min-max-scaler-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.feature.quantile">
+<span id="federatedml-feature-quantile-module"></span><h2>federatedml.feature.quantile module<a class="headerlink" href="#module-federatedml.feature.quantile" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.feature.quantile.Quantile">
+<em class="property">class </em><code class="descclassname">federatedml.feature.quantile.</code><code class="descname">Quantile</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.convert_feature_to_bin">
+<em class="property">static </em><code class="descname">convert_feature_to_bin</code><span class="sig-paren">(</span><em>data_instance</em>, <em>method</em>, <em>bin_num=32</em>, <em>bin_gap=1e-06</em>, <em>bin_sample_num=10000</em>, <em>valid_features=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.convert_feature_to_bin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.convert_feature_to_bin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.convert_instance_to_bin">
+<em class="property">static </em><code class="descname">convert_instance_to_bin</code><span class="sig-paren">(</span><em>instance</em>, <em>bin_split_points=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.convert_instance_to_bin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.convert_instance_to_bin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.find_bin_sparse_points">
+<em class="property">static </em><code class="descname">find_bin_sparse_points</code><span class="sig-paren">(</span><em>bin_split_points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.find_bin_sparse_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.find_bin_sparse_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.find_bin_split_points">
+<em class="property">static </em><code class="descname">find_bin_split_points</code><span class="sig-paren">(</span><em>data_instance</em>, <em>method</em>, <em>bin_num=32</em>, <em>bin_gap=1e-06</em>, <em>bin_sample_num=10000</em>, <em>valid_features=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.find_bin_split_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.find_bin_split_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.gen_bin_by_data_block">
+<em class="property">static </em><code class="descname">gen_bin_by_data_block</code><span class="sig-paren">(</span><em>data</em>, <em>bin_num=32</em>, <em>bin_gap=1e-06</em>, <em>valid_features=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.gen_bin_by_data_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.gen_bin_by_data_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.gen_bin_by_merge_data_block">
+<em class="property">static </em><code class="descname">gen_bin_by_merge_data_block</code><span class="sig-paren">(</span><em>data_instance</em>, <em>bin_num</em>, <em>bin_gap</em>, <em>valid_features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.gen_bin_by_merge_data_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.gen_bin_by_merge_data_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.gen_bin_by_sample_data">
+<em class="property">static </em><code class="descname">gen_bin_by_sample_data</code><span class="sig-paren">(</span><em>data_instance</em>, <em>bin_num=32</em>, <em>bin_gap=1e-06</em>, <em>bin_sample_num=32</em>, <em>valid_features=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.gen_bin_by_sample_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.gen_bin_by_sample_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.generate_bin_by_batch">
+<em class="property">static </em><code class="descname">generate_bin_by_batch</code><span class="sig-paren">(</span><em>param_list</em>, <em>key_value_tuples</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.generate_bin_by_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.generate_bin_by_batch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.merge_bin_split_points">
+<em class="property">static </em><code class="descname">merge_bin_split_points</code><span class="sig-paren">(</span><em>bin_split_point_list</em>, <em>bin_num=32</em>, <em>bin_gap=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.merge_bin_split_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.merge_bin_split_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.feature.quantile.Quantile.sample_data">
+<em class="property">static </em><code class="descname">sample_data</code><span class="sig-paren">(</span><em>data_instance</em>, <em>bin_sample_num=10000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile.html#Quantile.sample_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile.Quantile.sample_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.feature.quantile_summaries">
+<span id="federatedml-feature-quantile-summaries-module"></span><h2>federatedml.feature.quantile_summaries module<a class="headerlink" href="#module-federatedml.feature.quantile_summaries" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.feature.quantile_summaries.QuantileSummaries">
+<em class="property">class </em><code class="descclassname">federatedml.feature.quantile_summaries.</code><code class="descname">QuantileSummaries</code><span class="sig-paren">(</span><em>compress_thres=10000</em>, <em>head_size=10000</em>, <em>error=0.001</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile_summaries.html#QuantileSummaries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile_summaries.QuantileSummaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.feature.quantile_summaries.QuantileSummaries.compress">
+<code class="descname">compress</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile_summaries.html#QuantileSummaries.compress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile_summaries.QuantileSummaries.compress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.quantile_summaries.QuantileSummaries.insert">
+<code class="descname">insert</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile_summaries.html#QuantileSummaries.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile_summaries.QuantileSummaries.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an observation of data. First store in a array buffer. If the buffer is full,
+do a batch insert. If the size of sampled list reach compress_thres, compress this list.
+:param x: The observation that prepare to insert
+:type x: float</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.quantile_summaries.QuantileSummaries.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile_summaries.html#QuantileSummaries.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile_summaries.QuantileSummaries.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>merge current summeries with the other one.
+:param other: The summaries to be merged
+:type other: QuantileSummaries</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.quantile_summaries.QuantileSummaries.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>quantile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile_summaries.html#QuantileSummaries.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile_summaries.QuantileSummaries.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the queried quantile, return the approximation guaranteed result
+:param quantile: The target quantile
+:type quantile: float [0.0, 1.0]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>, the corresponding value result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.feature.quantile_summaries.Stats">
+<em class="property">class </em><code class="descclassname">federatedml.feature.quantile_summaries.</code><code class="descname">Stats</code><span class="sig-paren">(</span><em>value</em>, <em>g: int</em>, <em>delta: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/quantile_summaries.html#Stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.quantile_summaries.Stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.feature.sampler">
+<span id="federatedml-feature-sampler-module"></span><h2>federatedml.feature.sampler module<a class="headerlink" href="#module-federatedml.feature.sampler" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.feature.sampler.RandomSampler">
+<em class="property">class </em><code class="descclassname">federatedml.feature.sampler.</code><code class="descname">RandomSampler</code><span class="sig-paren">(</span><em>fraction=0.1</em>, <em>random_state=None</em>, <em>method='downsample'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#RandomSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.RandomSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.feature.sampler.RandomSampler.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>data_inst</em>, <em>sample_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#RandomSampler.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.RandomSampler.sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.feature.sampler.Sampler">
+<em class="property">class </em><code class="descclassname">federatedml.feature.sampler.</code><code class="descname">Sampler</code><span class="sig-paren">(</span><em>sample_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#Sampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.Sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.feature.sampler.Sampler.recv_sample_ids">
+<code class="descname">recv_sample_ids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#Sampler.recv_sample_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.Sampler.recv_sample_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sampler.Sampler.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>data_inst</em>, <em>task_type</em>, <em>task_role</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#Sampler.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.Sampler.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sampler.Sampler.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>data_inst</em>, <em>sample_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#Sampler.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.Sampler.sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sampler.Sampler.set_flowid">
+<code class="descname">set_flowid</code><span class="sig-paren">(</span><em>flowid='samole'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#Sampler.set_flowid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.Sampler.set_flowid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sampler.Sampler.sync_sample_ids">
+<code class="descname">sync_sample_ids</code><span class="sig-paren">(</span><em>sample_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#Sampler.sync_sample_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.Sampler.sync_sample_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.feature.sampler.StratifiedSampler">
+<em class="property">class </em><code class="descclassname">federatedml.feature.sampler.</code><code class="descname">StratifiedSampler</code><span class="sig-paren">(</span><em>fractions=None</em>, <em>random_state=None</em>, <em>method='downsample'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#StratifiedSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.StratifiedSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.feature.sampler.StratifiedSampler.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>data_inst</em>, <em>sample_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sampler.html#StratifiedSampler.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sampler.StratifiedSampler.sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="federatedml-feature-scaler-module">
+<h2>federatedml.feature.scaler module<a class="headerlink" href="#federatedml-feature-scaler-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.feature.sparse_vector">
+<span id="federatedml-feature-sparse-vector-module"></span><h2>federatedml.feature.sparse_vector module<a class="headerlink" href="#module-federatedml.feature.sparse_vector" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.feature.sparse_vector.SparseVector">
+<em class="property">class </em><code class="descclassname">federatedml.feature.sparse_vector.</code><code class="descname">SparseVector</code><span class="sig-paren">(</span><em>indices=None</em>, <em>data=None</em>, <em>shape=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sparse_vector.html#SparseVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sparse_vector.SparseVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.feature.sparse_vector.SparseVector.count_non_zeros">
+<code class="descname">count_non_zeros</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sparse_vector.html#SparseVector.count_non_zeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sparse_vector.SparseVector.count_non_zeros" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sparse_vector.SparseVector.count_zeros">
+<code class="descname">count_zeros</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sparse_vector.html#SparseVector.count_zeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sparse_vector.SparseVector.count_zeros" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sparse_vector.SparseVector.get_all_data">
+<code class="descname">get_all_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sparse_vector.html#SparseVector.get_all_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sparse_vector.SparseVector.get_all_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sparse_vector.SparseVector.get_data">
+<code class="descname">get_data</code><span class="sig-paren">(</span><em>pos</em>, <em>default_val=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sparse_vector.html#SparseVector.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sparse_vector.SparseVector.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.feature.sparse_vector.SparseVector.get_shape">
+<code class="descname">get_shape</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/feature/sparse_vector.html#SparseVector.get_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.feature.sparse_vector.SparseVector.get_shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="federatedml-feature-standard-scaler-module">
+<h2>federatedml.feature.standard_scaler module<a class="headerlink" href="#federatedml-feature-standard-scaler-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.feature">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-federatedml.feature" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Webank FATE TEAM
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

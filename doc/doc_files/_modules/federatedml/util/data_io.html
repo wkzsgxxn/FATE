@@ -1,0 +1,1016 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>federatedml.util.data_io &mdash; FATE 0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> FATE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FATE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>federatedml.util.data_io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for federatedml.util.data_io</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#</span>
+<span class="c1">#  Copyright 2019 The FATE Authors. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">arch.api.utils</span> <span class="k">import</span> <span class="n">log_utils</span>
+<span class="kn">from</span> <span class="nn">federatedml.feature.instance</span> <span class="k">import</span> <span class="n">Instance</span>
+<span class="kn">from</span> <span class="nn">federatedml.feature.sparse_vector</span> <span class="k">import</span> <span class="n">SparseVector</span>
+<span class="kn">from</span> <span class="nn">federatedml.util</span> <span class="k">import</span> <span class="n">consts</span>
+<span class="kn">from</span> <span class="nn">federatedml.util.param_checker</span> <span class="k">import</span> <span class="n">DataIOParamChecker</span>
+<span class="kn">from</span> <span class="nn">arch.api.model_manager</span> <span class="k">import</span> <span class="n">manager</span>
+<span class="kn">from</span> <span class="nn">arch.api.proto.data_io_meta_pb2</span> <span class="k">import</span> <span class="n">DataIOMeta</span>
+<span class="kn">from</span> <span class="nn">arch.api.proto.data_io_param_pb2</span> <span class="k">import</span> <span class="n">DataIOParam</span>
+<span class="kn">from</span> <span class="nn">arch.api.proto.feature_imputer_meta_pb2</span> <span class="k">import</span> <span class="n">ImputerMeta</span>
+<span class="kn">from</span> <span class="nn">arch.api.proto.feature_imputer_param_pb2</span> <span class="k">import</span> <span class="n">ImputerParam</span>
+<span class="kn">from</span> <span class="nn">arch.api.proto.feature_outlier_meta_pb2</span> <span class="k">import</span> <span class="n">OutlierMeta</span>
+<span class="kn">from</span> <span class="nn">arch.api.proto.feature_outlier_param_pb2</span> <span class="k">import</span> <span class="n">OutlierParam</span>
+<span class="kn">from</span> <span class="nn">arch.api</span> <span class="k">import</span> <span class="n">storage</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">log_utils</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># DenseFeatureReader</span>
+<span class="c1"># =============================================================================</span>
+<div class="viewcode-block" id="DenseFeatureReader"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader">[docs]</a><span class="k">class</span> <span class="nc">DenseFeatureReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_io_param</span><span class="p">):</span>
+        <span class="n">DataIOParamChecker</span><span class="o">.</span><span class="n">check_param</span><span class="p">(</span><span class="n">data_io_param</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">delimitor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">data_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_fill</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">missing_fill</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">default_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_fill_method</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">missing_fill_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">missing_impute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">outlier_replace</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_method</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">outlier_replace_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlier_impute</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">outlier_impute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_value</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">outlier_replace_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">with_label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">label_idx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">label_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">output_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="DenseFeatureReader.generate_header"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.generate_header">[docs]</a>    <span class="k">def</span> <span class="nf">generate_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data_feature</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_data_table_meta</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">:</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="n">get_one_line</span><span class="p">(</span><span class="n">input_data_feature</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;fid&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature</span><span class="p">))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span><span class="p">]</span> <span class="o">+</span> \
+                              <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.read_data"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.read_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;fit&quot;</span><span class="p">):</span>
+        <span class="n">input_data</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_data_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;start to read dense data and change data to instance&quot;</span><span class="p">)</span>
+        <span class="n">input_data_features</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">input_data_labels</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="s2">&quot;int&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;label index should be integer&quot;</span><span class="p">)</span>
+
+            <span class="n">input_data_features</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[:</span><span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span>
+                                                                                 <span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+            <span class="n">input_data_labels</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">input_data_features</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="n">input_data_labels</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="n">input_data_labels</span><span class="p">)</span>
+
+        <span class="n">set_schema</span><span class="p">(</span><span class="n">data_instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.fit"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data_features</span><span class="p">,</span> <span class="n">input_data_labels</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">):</span>
+        <span class="n">input_data_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_missing_value</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">)</span>
+        <span class="n">input_data_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_outlier_value</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_header</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_data_instance</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="n">input_data_labels</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.transform"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data_features</span><span class="p">,</span> <span class="n">input_data_labels</span><span class="p">):</span>
+        <span class="n">input_data_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_missing_value</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">)</span>
+        <span class="n">input_data_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_outlier_value</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">)</span>
+
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_data_instance</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span> <span class="n">input_data_labels</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.fill_missing_value"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.fill_missing_value">[docs]</a>    <span class="k">def</span> <span class="nf">fill_missing_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data_features</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;fit&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing_fill</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">federatedml.feature.imputer</span> <span class="k">import</span> <span class="n">Imputer</span>
+            <span class="n">imputer_processor</span> <span class="o">=</span> <span class="n">Imputer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;missing_replace_method is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_fill_method</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+                <span class="n">input_data_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">imputer_processor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span>
+                                                                                <span class="n">replace_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_fill_method</span><span class="p">,</span>
+                                                                                <span class="n">replace_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span> <span class="o">=</span> <span class="n">imputer_processor</span><span class="o">.</span><span class="n">get_imputer_value_list</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_data_features</span> <span class="o">=</span> <span class="n">imputer_processor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span>
+                                                                  <span class="n">replace_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_fill_method</span><span class="p">,</span>
+                                                                  <span class="n">transform_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span> <span class="o">=</span> <span class="n">imputer_processor</span><span class="o">.</span><span class="n">get_imputer_value_list</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">input_data_features</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.replace_outlier_value"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.replace_outlier_value">[docs]</a>    <span class="k">def</span> <span class="nf">replace_outlier_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data_features</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;fit&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">federatedml.feature.imputer</span> <span class="k">import</span> <span class="n">Imputer</span>
+            <span class="n">imputer_processor</span> <span class="o">=</span> <span class="n">Imputer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outlier_impute</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+                <span class="n">input_data_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_value</span> <span class="o">=</span> \
+                    <span class="n">imputer_processor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span>
+                                          <span class="n">replace_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_method</span><span class="p">,</span>
+                                          <span class="n">replace_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_value</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outlier_impute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">outlier_impute</span> <span class="o">=</span> <span class="n">imputer_processor</span><span class="o">.</span><span class="n">get_imputer_value_list</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;replace method is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_method</span><span class="p">))</span>
+                <span class="n">input_data_features</span> <span class="o">=</span> <span class="n">imputer_processor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">input_data_features</span><span class="p">,</span>
+                                                                  <span class="n">replace_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_method</span><span class="p">,</span>
+                                                                  <span class="n">transform_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_value</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">input_data_features</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.gen_data_instance"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.gen_data_instance">[docs]</a>    <span class="k">def</span> <span class="nf">gen_data_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data_features</span><span class="p">,</span> <span class="n">input_data_labels</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="n">input_data_features</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_data_labels</span><span class="p">,</span>
+                                                     <span class="k">lambda</span> <span class="n">features</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">to_instance</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="n">input_data_features</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="k">lambda</span> <span class="n">features</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_instance</span><span class="p">(</span><span class="n">features</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.to_instance"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.to_instance">[docs]</a>    <span class="k">def</span> <span class="nf">to_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span> <span class="o">==</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+            <span class="n">features</span> <span class="o">=</span> <span class="n">DenseFeatureReader</span><span class="o">.</span><span class="n">gen_output_format</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
+                                                            <span class="n">missing_impute</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">DenseFeatureReader</span><span class="o">.</span><span class="n">gen_output_format</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
+                                                            <span class="n">missing_impute</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Instance</span><span class="p">(</span><span class="n">inst_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.gen_output_format"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.gen_output_format">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">gen_output_format</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;dense&#39;</span><span class="p">,</span> <span class="n">missing_impute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">output_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="s2">&quot;sparse&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;output format </span><span class="si">{}</span><span class="s2"> is not define&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_format</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;dense&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">column_shape</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+        <span class="n">non_zero</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">column_shape</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">missing_impute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">missing_impute</span><span class="p">)</span> <span class="ow">or</span> \
+                    <span class="p">(</span><span class="n">missing_impute</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;NULL&#39;</span><span class="p">,</span> <span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="s2">&quot;NA&quot;</span><span class="p">]):</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;float64&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">&lt;</span> <span class="n">consts</span><span class="o">.</span><span class="n">FLOAT_ZERO</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="n">non_zero</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">elif</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;int&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">column_shape</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.save_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_table</span><span class="p">,</span> <span class="n">model_namespace</span><span class="p">):</span>
+        <span class="n">model_types</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">model_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">model_namespace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;data io model-meta can&#39;t save, it will not reuse in transform stage&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="n">save_data_io_model</span><span class="p">(</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                           <span class="s2">&quot;DenseFeatureReader&quot;</span><span class="p">,</span>
+                           <span class="n">model_table</span><span class="p">,</span>
+                           <span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;DenseFeatureReader.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;DenseFeatureReader.param&quot;</span><span class="p">))</span>
+
+        <span class="n">save_missing_imputer_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_fill</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">missing_fill_method</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                                   <span class="s2">&quot;Imputer&quot;</span><span class="p">,</span>
+                                   <span class="n">model_table</span><span class="p">,</span>
+                                   <span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Imputer.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;Imputer.param&quot;</span><span class="p">))</span>
+
+        <span class="n">save_outlier_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_method</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">outlier_impute</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_value</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                           <span class="s2">&quot;Outlier&quot;</span><span class="p">,</span>
+                           <span class="n">model_table</span><span class="p">,</span>
+                           <span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Outlier.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;Outlier.param&quot;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">model_types</span></div>
+
+<div class="viewcode-block" id="DenseFeatureReader.load_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.DenseFeatureReader.load_model">[docs]</a>    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_table</span><span class="p">,</span> <span class="n">model_namespace</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">model_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">model_namespace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;data io model-meta can&#39;t reuse, model table name or namespace is null&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_idx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">load_data_io_model</span><span class="p">(</span><span class="s2">&quot;DenseFeatureReader&quot;</span><span class="p">,</span>
+                                                                                              <span class="n">model_table</span><span class="p">,</span>
+                                                                                              <span class="n">model_namespace</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_fill</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing_fill_method</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_impute</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">load_missing_imputer_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                                                                             <span class="s2">&quot;Imputer&quot;</span><span class="p">,</span>
+                                                                             <span class="n">model_table</span><span class="p">,</span>
+                                                                             <span class="n">model_namespace</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_method</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlier_impute</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">outlier_replace_value</span> <span class="o">=</span> <span class="n">load_outlier_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                                                                             <span class="s2">&quot;Outlier&quot;</span><span class="p">,</span>
+                                                                             <span class="n">model_table</span><span class="p">,</span>
+                                                                             <span class="n">model_namespace</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># SparseFeatureReader: mainly for libsvm input format</span>
+<span class="c1"># =============================================================================</span>
+<div class="viewcode-block" id="SparseFeatureReader"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader">[docs]</a><span class="k">class</span> <span class="nc">SparseFeatureReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_io_param</span><span class="p">):</span>
+        <span class="n">DataIOParamChecker</span><span class="o">.</span><span class="n">check_param</span><span class="p">(</span><span class="n">data_io_param</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">delimitor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">data_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">label_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">output_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="SparseFeatureReader.get_max_feature_index"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.get_max_feature_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_feature_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">delimitor</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;find an empty line, please check!!!&quot;</span><span class="p">)</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">return</span> <span class="nb">max</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">fid_value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">fid_value</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.generate_header"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.generate_header">[docs]</a>    <span class="k">def</span> <span class="nf">generate_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_feature</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_feature</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.read_data"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.read_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;fit&quot;</span><span class="p">):</span>
+        <span class="n">input_data</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_data_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;start to read sparse data and change data to instance&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+
+        <span class="n">set_schema</span><span class="p">(</span><span class="n">data_instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.fit"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
+        <span class="n">get_max_fid</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_max_feature_index</span><span class="p">,</span> <span class="n">delimitor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">)</span>
+        <span class="n">max_feature</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="n">get_max_fid</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">max_fid1</span><span class="p">,</span> <span class="n">max_fid2</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_fid1</span><span class="p">,</span> <span class="n">max_fid2</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">max_feature</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;no feature value in input data, please check!&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_header</span><span class="p">(</span><span class="n">max_feature</span><span class="p">)</span>
+
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_data_instance</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">max_feature</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.transform"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
+        <span class="n">max_feature</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_data_instance</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">max_feature</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.gen_data_instance"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.gen_data_instance">[docs]</a>    <span class="k">def</span> <span class="nf">gen_data_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">max_feature</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span> <span class="n">max_feature</span><span class="p">]</span>
+
+        <span class="n">to_instance_with_param</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_instance</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="n">to_instance_with_param</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.to_instance"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.to_instance">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">to_instance</span><span class="p">(</span><span class="n">param_list</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">delimitor</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">label_type</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">output_format</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">max_fid</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">output_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="s2">&quot;sparse&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;output format </span><span class="si">{}</span><span class="s2"> is not define&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_format</span><span class="p">))</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">label</span> <span class="o">=</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">label_type</span> <span class="o">==</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">label_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="n">fid_value</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)):</span>
+            <span class="n">fid</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">cols</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">fid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">]:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+            <span class="n">fid_value</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">fid</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;dense&quot;</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_fid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">fid</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">fid_value</span><span class="p">:</span>
+                <span class="n">features</span><span class="p">[</span><span class="n">fid</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+            <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">fid</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">fid_value</span><span class="p">:</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+            <span class="n">features</span> <span class="o">=</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">max_fid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Instance</span><span class="p">(</span><span class="n">inst_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.save_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_table</span><span class="p">,</span> <span class="n">model_namespace</span><span class="p">):</span>
+        <span class="n">model_types</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">save_data_io_model</span><span class="p">(</span><span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;sparse&quot;</span><span class="p">,</span>
+                           <span class="n">delimitor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span>
+                           <span class="n">data_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span>
+                           <span class="n">label_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span>
+                           <span class="n">output_format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
+                           <span class="n">header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                           <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;SparseFeatureReader&quot;</span><span class="p">,</span>
+                           <span class="n">model_table</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                           <span class="n">model_namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;SparseFeatureReader.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;SparseFeatureReader.param&quot;</span><span class="p">))</span>
+
+        <span class="n">save_missing_imputer_model</span><span class="p">(</span><span class="n">missing_fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Imputer&quot;</span><span class="p">,</span>
+                                   <span class="n">model_table</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                                   <span class="n">model_namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Imputer.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;Imputer.param&quot;</span><span class="p">))</span>
+
+        <span class="n">save_outlier_model</span><span class="p">(</span><span class="n">outlier_replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Outlier&quot;</span><span class="p">,</span>
+                           <span class="n">model_table</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                           <span class="n">model_namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Outlier.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;Outlier.param&quot;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">model_types</span></div>
+
+<div class="viewcode-block" id="SparseFeatureReader.load_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseFeatureReader.load_model">[docs]</a>    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_table</span><span class="p">,</span> <span class="n">model_namespace</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="n">_1</span><span class="p">,</span> \
+        <span class="n">_2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">load_data_io_model</span><span class="p">(</span><span class="s2">&quot;SparseFeatureReader&quot;</span><span class="p">,</span>
+                                                                                  <span class="n">model_table</span><span class="p">,</span>
+                                                                                  <span class="n">model_namespace</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># SparseTagReader: mainly for tag data</span>
+<span class="c1"># =============================================================================</span>
+<div class="viewcode-block" id="SparseTagReader"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader">[docs]</a><span class="k">class</span> <span class="nc">SparseTagReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_io_param</span><span class="p">):</span>
+        <span class="n">DataIOParamChecker</span><span class="o">.</span><span class="n">check_param</span><span class="p">(</span><span class="n">data_io_param</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">delimitor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">data_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">with_label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">label_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span> <span class="o">=</span> <span class="n">data_io_param</span><span class="o">.</span><span class="n">output_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="SparseTagReader.agg_tag"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.agg_tag">[docs]</a>    <span class="k">def</span> <span class="nf">agg_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kvs</span><span class="p">,</span> <span class="n">delimitor</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+        <span class="n">tags_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;delemitor is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kvs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">:</span>
+                <span class="n">cols</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span> <span class="p">:</span> <span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cols</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">:]</span>
+
+            <span class="n">tags_set</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;tags set is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tags_set</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">tags_set</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.generate_header"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.generate_header">[docs]</a>    <span class="k">def</span> <span class="nf">generate_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">tags</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.read_data"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.read_data">[docs]</a>    <span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;fit&quot;</span><span class="p">):</span>
+        <span class="n">input_data</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_data_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;start to read sparse data and change data to instance&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+
+        <span class="n">set_schema</span><span class="p">(</span><span class="n">data_instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.fit"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
+        <span class="n">tag_aggregator</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agg_tag</span><span class="p">,</span> <span class="n">delimitor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">)</span>
+        <span class="n">tags_set_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_data</span><span class="o">.</span><span class="n">mapPartitions</span><span class="p">(</span><span class="n">tag_aggregator</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+        <span class="n">tags_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_tags_set</span> <span class="ow">in</span> <span class="n">tags_set_list</span><span class="p">:</span>
+            <span class="n">tags_set</span> <span class="o">|=</span> <span class="n">_tags_set</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tags_set</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;no tags in input data, please check!&quot;</span><span class="p">)</span>
+
+        <span class="n">tags</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+        <span class="n">tags_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">))))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_header</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_data_instance</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">tags_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.transform"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
+        <span class="n">tags_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">))))</span>
+
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_data_instance</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">tags_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.gen_data_instance"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.gen_data_instance">[docs]</a>    <span class="k">def</span> <span class="nf">gen_data_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">tags_dict</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
+                  <span class="n">tags_dict</span><span class="p">]</span>
+
+        <span class="n">to_instance_with_param</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_instance</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">data_instance</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="n">to_instance_with_param</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data_instance</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.to_instance"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.to_instance">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">to_instance</span><span class="p">(</span><span class="n">param_list</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">delimitor</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">with_label</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">label_type</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">output_format</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">tags_dict</span> <span class="o">=</span> <span class="n">param_list</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">output_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="s2">&quot;sparse&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;output format </span><span class="si">{}</span><span class="s2"> is not define&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_format</span><span class="p">))</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimitor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">start_pos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">with_label</span><span class="p">:</span>
+            <span class="n">start_pos</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">label_type</span> <span class="o">==</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">label_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">output_format</span> <span class="o">==</span> <span class="s2">&quot;dense&quot;</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tags_dict</span><span class="p">))]</span>
+            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">[</span><span class="n">start_pos</span><span class="p">:]:</span>
+                <span class="n">features</span><span class="p">[</span><span class="n">tags_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">[</span><span class="n">start_pos</span><span class="p">:]:</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tags_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+                <span class="n">_data</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">]:</span>
+                    <span class="n">_data</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_data</span><span class="p">)</span>
+
+            <span class="n">features</span> <span class="o">=</span> <span class="n">SparseVector</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags_dict</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">Instance</span><span class="p">(</span><span class="n">inst_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.save_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_table</span><span class="p">,</span> <span class="n">model_namespace</span><span class="p">):</span>
+        <span class="n">model_types</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">save_data_io_model</span><span class="p">(</span><span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span>
+                           <span class="n">delimitor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span>
+                           <span class="n">data_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span>
+                           <span class="n">with_label</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">,</span>
+                           <span class="n">label_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span>
+                           <span class="n">output_format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span>
+                           <span class="n">header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+                           <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;SparseTagReader&quot;</span><span class="p">,</span>
+                           <span class="n">model_table</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                           <span class="n">model_namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;SparseTagReader.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;SparseTagReader.param&quot;</span><span class="p">))</span>
+
+        <span class="n">save_missing_imputer_model</span><span class="p">(</span><span class="n">missing_fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Imputer&quot;</span><span class="p">,</span>
+                                   <span class="n">model_table</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                                   <span class="n">model_namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Imputer.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;Imputer.param&quot;</span><span class="p">))</span>
+
+        <span class="n">save_outlier_model</span><span class="p">(</span><span class="n">outlier_replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Outlier&quot;</span><span class="p">,</span>
+                           <span class="n">model_table</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                           <span class="n">model_namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+        <span class="n">model_types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Outlier.meta&quot;</span><span class="p">,</span> <span class="s2">&quot;Outlier.param&quot;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">model_types</span></div>
+
+<div class="viewcode-block" id="SparseTagReader.load_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.SparseTagReader.load_model">[docs]</a>    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_table</span><span class="p">,</span> <span class="n">model_namespace</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delimitor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_label</span><span class="p">,</span> \
+        <span class="n">_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">load_data_io_model</span><span class="p">(</span><span class="s2">&quot;SparseTagReader&quot;</span><span class="p">,</span>
+                                                                                 <span class="n">model_table</span><span class="p">,</span>
+                                                                                 <span class="n">model_namespace</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="get_one_line"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.get_one_line">[docs]</a><span class="k">def</span> <span class="nf">get_one_line</span><span class="p">(</span><span class="n">data_instance</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data_instance</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="set_schema"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.set_schema">[docs]</a><span class="k">def</span> <span class="nf">set_schema</span><span class="p">(</span><span class="n">data_instance</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;data_instance&#39;s schema is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_instance</span><span class="o">.</span><span class="n">schema</span><span class="p">))</span>
+    <span class="n">data_instance</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="n">header</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="save_data_io_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.save_data_io_model">[docs]</a><span class="k">def</span> <span class="nf">save_data_io_model</span><span class="p">(</span><span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span>
+                       <span class="n">delimitor</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+                       <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;str&quot;</span><span class="p">,</span>
+                       <span class="n">with_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">label_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                       <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">,</span>
+                       <span class="n">output_format</span><span class="o">=</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span>
+                       <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;DataIO&quot;</span><span class="p">,</span>
+                       <span class="n">model_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">model_namespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">model_meta</span> <span class="o">=</span> <span class="n">DataIOMeta</span><span class="p">()</span>
+    <span class="n">model_param</span> <span class="o">=</span> <span class="n">DataIOParam</span><span class="p">()</span>
+
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">input_format</span> <span class="o">=</span> <span class="n">input_format</span>
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">delimitor</span> <span class="o">=</span> <span class="n">delimitor</span>
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_type</span>
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">with_label</span> <span class="o">=</span> <span class="n">with_label</span>
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">label_idx</span> <span class="o">=</span> <span class="n">label_idx</span>
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">label_type</span> <span class="o">=</span> <span class="n">label_type</span>
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">output_format</span> <span class="o">=</span> <span class="n">output_format</span>
+
+    <span class="k">if</span> <span class="n">header</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">model_param</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.meta&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_meta</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.param&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_param</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_data_io_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.load_data_io_model">[docs]</a><span class="k">def</span> <span class="nf">load_data_io_model</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;DataIO&quot;</span><span class="p">,</span>
+                       <span class="n">model_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">model_namespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">model_meta</span> <span class="o">=</span> <span class="n">DataIOMeta</span><span class="p">()</span>
+    <span class="n">model_param</span> <span class="o">=</span> <span class="n">DataIOParam</span><span class="p">()</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.meta&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_meta</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.param&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_param</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">delimitor</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">delimitor</span>
+    <span class="n">data_type</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">data_type</span>
+    <span class="n">with_label</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">with_label</span>
+    <span class="n">label_idx</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">label_idx</span>
+    <span class="n">label_type</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">label_type</span>
+    <span class="n">output_format</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">output_format</span>
+
+    <span class="n">header</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_param</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">delimitor</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">with_label</span><span class="p">,</span> <span class="n">label_idx</span><span class="p">,</span> <span class="n">label_type</span><span class="p">,</span> <span class="n">output_format</span><span class="p">,</span> <span class="n">header</span></div>
+
+
+<div class="viewcode-block" id="save_missing_imputer_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.save_missing_imputer_model">[docs]</a><span class="k">def</span> <span class="nf">save_missing_imputer_model</span><span class="p">(</span><span class="n">missing_fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">missing_replace_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">missing_impute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">missing_fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Imputer&quot;</span><span class="p">,</span>
+                               <span class="n">model_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">model_namespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">model_meta</span> <span class="o">=</span> <span class="n">ImputerMeta</span><span class="p">()</span>
+    <span class="n">model_param</span> <span class="o">=</span> <span class="n">ImputerParam</span><span class="p">()</span>
+
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">is_imputer</span> <span class="o">=</span> <span class="n">missing_fill</span>
+    <span class="k">if</span> <span class="n">missing_fill</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">missing_replace_method</span><span class="p">:</span>
+            <span class="n">model_meta</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">missing_replace_method</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">missing_impute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">missing_impute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">model_meta</span><span class="o">.</span><span class="n">missing_value</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">missing_impute</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">missing_fill_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">feature_value_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">missing_fill_value</span><span class="p">)))</span>
+
+            <span class="n">model_param</span><span class="o">.</span><span class="n">missing_replace_value</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">feature_value_dict</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.meta&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_meta</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.param&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_param</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_missing_imputer_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.load_missing_imputer_model">[docs]</a><span class="k">def</span> <span class="nf">load_missing_imputer_model</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Imputer&quot;</span><span class="p">,</span>
+                               <span class="n">model_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">model_namespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">model_meta</span> <span class="o">=</span> <span class="n">ImputerMeta</span><span class="p">()</span>
+    <span class="n">model_param</span> <span class="o">=</span> <span class="n">ImputerParam</span><span class="p">()</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.meta&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_meta</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.param&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_param</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">missing_fill</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">is_imputer</span>
+    <span class="n">missing_replace_method</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">strategy</span>
+    <span class="n">missing_value</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">missing_value</span>
+    <span class="n">missing_fill_value</span> <span class="o">=</span> <span class="n">model_param</span><span class="o">.</span><span class="n">missing_replace_value</span>
+
+    <span class="k">if</span> <span class="n">missing_fill</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">missing_replace_method</span><span class="p">:</span>
+            <span class="n">missing_replace_method</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">missing_value</span><span class="p">:</span>
+            <span class="n">missing_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">missing_value</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">missing_value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">missing_fill_value</span><span class="p">:</span>
+            <span class="n">missing_fill_value</span> <span class="o">=</span> <span class="p">[</span><span class="n">missing_fill_value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="k">for</span> <span class="n">head</span> <span class="ow">in</span> <span class="n">header</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">missing_fill_value</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">missing_replace_method</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">missing_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">missing_fill_value</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">missing_fill</span><span class="p">,</span> <span class="n">missing_replace_method</span><span class="p">,</span> <span class="n">missing_value</span><span class="p">,</span> <span class="n">missing_fill_value</span></div>
+
+
+<div class="viewcode-block" id="save_outlier_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.save_outlier_model">[docs]</a><span class="k">def</span> <span class="nf">save_outlier_model</span><span class="p">(</span><span class="n">outlier_replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">outlier_replace_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">outlier_impute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">outlier_replace_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Outlier&quot;</span><span class="p">,</span>
+                       <span class="n">model_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">model_namespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">model_meta</span> <span class="o">=</span> <span class="n">OutlierMeta</span><span class="p">()</span>
+    <span class="n">model_param</span> <span class="o">=</span> <span class="n">OutlierParam</span><span class="p">()</span>
+
+    <span class="n">model_meta</span><span class="o">.</span><span class="n">is_outlier</span> <span class="o">=</span> <span class="n">outlier_replace</span>
+    <span class="k">if</span> <span class="n">outlier_replace</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">outlier_replace_method</span><span class="p">:</span>
+            <span class="n">model_meta</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">outlier_replace_method</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">outlier_impute</span><span class="p">:</span>
+            <span class="n">model_meta</span><span class="o">.</span><span class="n">outlier_value</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">outlier_impute</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">outlier_replace_value</span><span class="p">:</span>
+            <span class="n">outlier_value_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">outlier_replace_value</span><span class="p">)))</span>
+            <span class="n">model_param</span><span class="o">.</span><span class="n">outlier_replace_value</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">outlier_value_dict</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.meta&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_meta</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.param&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_param</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_outlier_model"><a class="viewcode-back" href="../../../federatedml.util.html#federatedml.util.data_io.load_outlier_model">[docs]</a><span class="k">def</span> <span class="nf">load_outlier_model</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Outlier&quot;</span><span class="p">,</span>
+                       <span class="n">model_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">model_namespace</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">model_meta</span> <span class="o">=</span> <span class="n">OutlierMeta</span><span class="p">()</span>
+    <span class="n">model_param</span> <span class="o">=</span> <span class="n">OutlierParam</span><span class="p">()</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.meta&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_meta</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">manager</span><span class="o">.</span><span class="n">read_model</span><span class="p">(</span><span class="n">buffer_type</span><span class="o">=</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.param&quot;</span><span class="p">,</span>
+                       <span class="n">proto_buffer</span><span class="o">=</span><span class="n">model_param</span><span class="p">,</span>
+                       <span class="n">name</span><span class="o">=</span><span class="n">model_table</span><span class="p">,</span>
+                       <span class="n">namespace</span><span class="o">=</span><span class="n">model_namespace</span><span class="p">)</span>
+
+    <span class="n">outlier_replace</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">is_outlier</span>
+    <span class="n">outlier_replace_method</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">strategy</span>
+    <span class="n">outlier_value</span> <span class="o">=</span> <span class="n">model_meta</span><span class="o">.</span><span class="n">outlier_value</span>
+    <span class="n">outlier_replace_value</span> <span class="o">=</span> <span class="n">model_param</span><span class="o">.</span><span class="n">outlier_replace_value</span>
+
+    <span class="k">if</span> <span class="n">outlier_replace</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">outlier_replace_method</span><span class="p">:</span>
+            <span class="n">outlier_replace_method</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">outlier_value</span><span class="p">:</span>
+            <span class="n">outlier_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outlier_value</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">outlier_value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">outlier_replace_value</span><span class="p">:</span>
+            <span class="n">outlier_replace_value</span> <span class="o">=</span> <span class="p">[</span><span class="n">outlier_replace_value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="k">for</span> <span class="n">head</span> <span class="ow">in</span> <span class="n">header</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outlier_replace_value</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">outlier_replace_method</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">outlier_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">outlier_replace_value</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">return</span> <span class="n">outlier_replace</span><span class="p">,</span> <span class="n">outlier_replace_method</span><span class="p">,</span> <span class="n">outlier_value</span><span class="p">,</span> <span class="n">outlier_replace_value</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Webank FATE TEAM
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

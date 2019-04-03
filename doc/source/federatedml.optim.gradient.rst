@@ -1,0 +1,30 @@
+federatedml.optim.gradient package
+==================================
+
+Submodules
+----------
+
+federatedml.optim.gradient.base\_gradient module
+------------------------------------------------
+
+.. automodule:: federatedml.optim.gradient.base_gradient
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.optim.gradient.logistic\_gradient module
+----------------------------------------------------
+
+.. automodule:: federatedml.optim.gradient.logistic_gradient
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: federatedml.optim.gradient
+    :members:
+    :undoc-members:
+    :show-inheritance:

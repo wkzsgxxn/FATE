@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>federatedml.evaluation.evaluation &mdash; FATE 0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> FATE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FATE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>federatedml.evaluation.evaluation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for federatedml.evaluation.evaluation</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1">#  Copyright 2019 The FATE Authors. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Iterable</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">explained_variance_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">mean_absolute_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">mean_squared_log_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">median_absolute_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">precision_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">recall_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">roc_auc_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">roc_curve</span>
+
+<span class="kn">from</span> <span class="nn">arch.api.utils</span> <span class="k">import</span> <span class="n">log_utils</span>
+<span class="kn">from</span> <span class="nn">federatedml.util</span> <span class="k">import</span> <span class="n">consts</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">log_utils</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Evaluation"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation">[docs]</a><span class="k">class</span> <span class="nc">Evaluation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eval_type</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">=</span> <span class="n">eval_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_func</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">AUC</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">auc</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">KS</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ks</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">LIFT</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lift</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">PRECISION</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">RECALL</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">recall</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">ACCURACY</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">EXPLAINED_VARIANCE</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">explain_variance</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEAN_ABSOLUTE_ERROR</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_absolute_error</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEAN_SQUARED_ERROR</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_squared_error</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEAN_SQUARED_LOG_ERROR</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_squared_log_error</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEDIAN_ABSOLUTE_ERROR</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">median_absolute_error</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">R2_SCORE</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2_score</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">ROOT_MEAN_SQUARED_ERROR</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_mean_squared_error</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">regression_support_func</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">EXPLAINED_VARIANCE</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEAN_ABSOLUTE_ERROR</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEAN_SQUARED_ERROR</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEAN_SQUARED_LOG_ERROR</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">MEDIAN_ABSOLUTE_ERROR</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">R2_SCORE</span><span class="p">,</span>
+            <span class="n">consts</span><span class="o">.</span><span class="n">ROOT_MEAN_SQUARED_ERROR</span><span class="p">,</span>
+        <span class="p">]</span>
+
+<div class="viewcode-block" id="Evaluation.report"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.report">[docs]</a>    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">metrics</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not metrics can be found in evaluation, return None&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">REGRESSION</span><span class="p">:</span>
+            <span class="n">new_metrics</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">regression_support_func</span><span class="p">:</span>
+                    <span class="n">new_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metric</span><span class="p">)</span>
+            <span class="n">metrics</span> <span class="o">=</span> <span class="n">new_metrics</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not metrics can be found in evaluation of regression, return None&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span> <span class="o">=</span> <span class="n">thresholds</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">MULTY</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">new_labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">new_pred_scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span> <span class="ow">and</span> <span class="n">pos_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">pos_label</span> <span class="o">==</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                        <span class="n">new_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">new_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">new_pred_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_scores</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="n">eval_res</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_labels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Each of labels is None, can not evaluation!&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+                <span class="n">eval_res</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">eval_res</span>
+
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_labels</span><span class="p">)</span>
+        <span class="n">pred_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_pred_scores</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_func</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_func</span><span class="p">[</span><span class="n">metric</span><span class="p">](</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span>
+                <span class="n">eval_res</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__evaluation_format_translate</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;can not find evaluation of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">metric</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">eval_res</span></div>
+
+    <span class="k">def</span> <span class="nf">__evaluation_format_translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">,</span> <span class="n">eval_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">evaluation_format</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">thresholds</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">):</span>
+                        <span class="n">score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                        <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">thresholds</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">score</span><span class="p">)</span>
+                    <span class="n">evaluation_format</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">float</span><span class="p">):</span>
+                            <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
+
+                <span class="n">evaluation_format</span> <span class="o">=</span> <span class="n">results</span>
+
+            <span class="k">return</span> <span class="n">evaluation_format</span>
+
+<div class="viewcode-block" id="Evaluation.auc"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.auc">[docs]</a>    <span class="k">def</span> <span class="nf">auc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;auc is just suppose Binary Classification! return None as results&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Evaluation.explain_variance"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.explain_variance">[docs]</a>    <span class="k">def</span> <span class="nf">explain_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">explained_variance_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Evaluation.mean_absolute_error"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.mean_absolute_error">[docs]</a>    <span class="k">def</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Evaluation.mean_squared_error"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.mean_squared_error">[docs]</a>    <span class="k">def</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Evaluation.mean_squared_log_error"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.mean_squared_log_error">[docs]</a>    <span class="k">def</span> <span class="nf">mean_squared_log_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mean_squared_log_error</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Evaluation.median_absolute_error"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.median_absolute_error">[docs]</a>    <span class="k">def</span> <span class="nf">median_absolute_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">median_absolute_error</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Evaluation.r2_score"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.r2_score">[docs]</a>    <span class="k">def</span> <span class="nf">r2_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Evaluation.root_mean_squared_error"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.root_mean_squared_error">[docs]</a>    <span class="k">def</span> <span class="nf">root_mean_squared_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Evaluation.ks"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.ks">[docs]</a>    <span class="k">def</span> <span class="nf">ks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pred_scores</span><span class="p">),</span> <span class="n">drop_intermediate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">tpr</span> <span class="o">-</span> <span class="n">fpr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;ks is just suppose Binary Classification! return None as results&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Evaluation.lift"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.lift">[docs]</a>    <span class="k">def</span> <span class="nf">lift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span>
+
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">lift_operator</span> <span class="o">=</span> <span class="n">Lift</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">lift_operator</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;lift is just suppose Binary Classification! return None as results&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Evaluation.precision"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.precision">[docs]</a>    <span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span>
+
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">precision_operator</span> <span class="o">=</span> <span class="n">BiClassPrecision</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">precision_operator</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">MULTY</span><span class="p">:</span>
+            <span class="n">precision_operator</span> <span class="o">=</span> <span class="n">MultiClassPrecision</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">precision_operator</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">result_filter</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;error:can not find classification type:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Evaluation.recall"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.recall">[docs]</a>    <span class="k">def</span> <span class="nf">recall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span>
+
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">precision_operator</span> <span class="o">=</span> <span class="n">BiClassRecall</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">precision_operator</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">MULTY</span><span class="p">:</span>
+            <span class="n">precision_operator</span> <span class="o">=</span> <span class="n">MultiClassRecall</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">precision_operator</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">result_filter</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;error:can not find classification type:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Evaluation.accuracy"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Evaluation.accuracy">[docs]</a>    <span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholds</span>
+
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">BINARY</span><span class="p">:</span>
+            <span class="n">precision_operator</span> <span class="o">=</span> <span class="n">BiClassAccuracy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">precision_operator</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">,</span> <span class="n">normalize</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span> <span class="o">==</span> <span class="n">consts</span><span class="o">.</span><span class="n">MULTY</span><span class="p">:</span>
+            <span class="n">precision_operator</span> <span class="o">=</span> <span class="n">MultiClassAccuracy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">precision_operator</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">normalize</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;error:can not find classification type:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_type</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="Lift"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Lift">[docs]</a><span class="k">class</span> <span class="nc">Lift</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__predict_value_to_one_hot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred_value</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="n">one_hot</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pred_value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">one_hot</span>
+
+    <span class="k">def</span> <span class="nf">__compute_lift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">):</span>
+        <span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">pos_label</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+            <span class="n">tp</span><span class="p">,</span> <span class="n">tn</span> <span class="o">=</span> <span class="n">tn</span><span class="p">,</span> <span class="n">tp</span>
+            <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span> <span class="o">=</span> <span class="n">fn</span><span class="p">,</span> <span class="n">fp</span>
+
+        <span class="k">if</span> <span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">tp</span> <span class="o">+</span> <span class="n">tn</span> <span class="o">+</span> <span class="n">fp</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lift</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="n">lift</span>
+
+        <span class="n">pv_plus</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span>
+        <span class="n">pi1</span> <span class="o">=</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">tn</span> <span class="o">+</span> <span class="n">fp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
+        <span class="n">lift</span> <span class="o">=</span> <span class="n">pv_plus</span> <span class="o">/</span> <span class="n">pi1</span>
+        <span class="k">return</span> <span class="n">lift</span>
+
+<div class="viewcode-block" id="Lift.compute"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.Lift.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">lifts</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">:</span>
+            <span class="n">pred_scores_one_hot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__predict_value_to_one_hot</span><span class="p">(</span><span class="n">pred_scores</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+            <span class="n">label_type</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span>
+            <span class="n">lift_type</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">lt</span> <span class="ow">in</span> <span class="n">label_type</span><span class="p">:</span>
+                <span class="n">lift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compute_lift</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="n">lt</span><span class="p">)</span>
+                <span class="n">lift_type</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lift</span><span class="p">)</span>
+            <span class="n">lifts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lift_type</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">lifts</span></div></div>
+
+
+<div class="viewcode-block" id="BiClassPrecision"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.BiClassPrecision">[docs]</a><span class="k">class</span> <span class="nc">BiClassPrecision</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__predict_value_to_one_hot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred_value</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="n">one_hot</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pred_value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">one_hot</span>
+
+<div class="viewcode-block" id="BiClassPrecision.compute"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.BiClassPrecision.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">:</span>
+            <span class="n">pred_scores_one_hot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__predict_value_to_one_hot</span><span class="p">(</span><span class="n">pred_scores</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scores</span></div></div>
+
+
+<div class="viewcode-block" id="MultiClassPrecision"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.MultiClassPrecision">[docs]</a><span class="k">class</span> <span class="nc">MultiClassPrecision</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiClassPrecision.compute"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.MultiClassPrecision.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">result_filter</span><span class="p">):</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">label_type</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_type</span><span class="p">:</span>
+                <span class="n">label_type</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">pred_score</span> <span class="ow">in</span> <span class="n">pred_scores</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pred_score</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_type</span><span class="p">:</span>
+                <span class="n">label_type</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_score</span><span class="p">)</span>
+
+        <span class="n">label_type</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_type</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;label type size != scores size, exit&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">label_key_pair</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label_type</span><span class="p">)):</span>
+            <span class="n">label_key_pair</span><span class="p">[</span><span class="n">label_type</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
+
+        <span class="n">ret_scores</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">result_filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">rf</span> <span class="ow">in</span> <span class="n">result_filter</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">rf</span> <span class="ow">in</span> <span class="n">label_key_pair</span><span class="p">:</span>
+                    <span class="n">ret_scores</span><span class="p">[</span><span class="n">rf</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">label_key_pair</span><span class="p">[</span><span class="n">rf</span><span class="p">]]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ret_scores</span><span class="p">[</span><span class="n">rf</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">label_key_pair</span><span class="p">:</span>
+                <span class="n">ret_scores</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">label_key_pair</span><span class="p">[</span><span class="n">label</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="n">ret_scores</span></div></div>
+
+
+<div class="viewcode-block" id="BiClassRecall"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.BiClassRecall">[docs]</a><span class="k">class</span> <span class="nc">BiClassRecall</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__predict_value_to_one_hot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred_value</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="n">one_hot</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pred_value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">one_hot</span>
+
+<div class="viewcode-block" id="BiClassRecall.compute"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.BiClassRecall.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">:</span>
+            <span class="n">pred_scores_one_hot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__predict_value_to_one_hot</span><span class="p">(</span><span class="n">pred_scores</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scores</span></div></div>
+
+
+<div class="viewcode-block" id="MultiClassRecall"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.MultiClassRecall">[docs]</a><span class="k">class</span> <span class="nc">MultiClassRecall</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiClassRecall.compute"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.MultiClassRecall.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">result_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">label_type</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_type</span><span class="p">:</span>
+                <span class="n">label_type</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">pred_score</span> <span class="ow">in</span> <span class="n">pred_scores</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pred_score</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_type</span><span class="p">:</span>
+                <span class="n">label_type</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_score</span><span class="p">)</span>
+
+        <span class="n">label_type</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_type</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;error:label type size != scores size, return -1 as result&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">label_key_pair</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label_type</span><span class="p">)):</span>
+            <span class="n">label_key_pair</span><span class="p">[</span><span class="n">label_type</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
+
+        <span class="n">ret_scores</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">result_filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">rf</span> <span class="ow">in</span> <span class="n">result_filter</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">rf</span> <span class="ow">in</span> <span class="n">label_key_pair</span><span class="p">:</span>
+                    <span class="n">ret_scores</span><span class="p">[</span><span class="n">rf</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">label_key_pair</span><span class="p">[</span><span class="n">rf</span><span class="p">]]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ret_scores</span><span class="p">[</span><span class="n">rf</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">label_key_pair</span><span class="p">:</span>
+                <span class="n">ret_scores</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">label_key_pair</span><span class="p">[</span><span class="n">label</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="n">ret_scores</span></div></div>
+
+
+<div class="viewcode-block" id="BiClassAccuracy"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.BiClassAccuracy">[docs]</a><span class="k">class</span> <span class="nc">BiClassAccuracy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__predict_value_to_one_hot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred_value</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="n">one_hot</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pred_value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">one_hot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">one_hot</span>
+
+<div class="viewcode-block" id="BiClassAccuracy.compute"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.BiClassAccuracy.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">:</span>
+            <span class="n">pred_scores_one_hot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__predict_value_to_one_hot</span><span class="p">(</span><span class="n">pred_scores</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores_one_hot</span><span class="p">,</span> <span class="n">normalize</span><span class="p">)</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scores</span></div></div>
+
+
+<div class="viewcode-block" id="MultiClassAccuracy"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.MultiClassAccuracy">[docs]</a><span class="k">class</span> <span class="nc">MultiClassAccuracy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiClassAccuracy.compute"><a class="viewcode-back" href="../../../federatedml.evaluation.html#federatedml.evaluation.evaluation.MultiClassAccuracy.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_scores</span><span class="p">,</span> <span class="n">normalize</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Webank FATE TEAM
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

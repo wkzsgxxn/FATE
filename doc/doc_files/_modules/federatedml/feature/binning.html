@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>federatedml.feature.binning &mdash; FATE 0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> FATE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">FATE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>federatedml.feature.binning</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for federatedml.feature.binning</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#</span>
+<span class="c1">#  Copyright 2019 The FATE Authors. All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">arch.api.utils</span> <span class="k">import</span> <span class="n">log_utils</span>
+<span class="kn">from</span> <span class="nn">federatedml.feature.quantile_summaries</span> <span class="k">import</span> <span class="n">QuantileSummaries</span>
+<span class="kn">from</span> <span class="nn">federatedml.util.fate_operator</span> <span class="k">import</span> <span class="n">get_features_shape</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">log_utils</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="IVAttributes"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.IVAttributes">[docs]</a><span class="k">class</span> <span class="nc">IVAttributes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">woe_array</span><span class="p">,</span> <span class="n">iv_array</span><span class="p">,</span> <span class="n">event_count_array</span><span class="p">,</span> <span class="n">non_event_count_array</span><span class="p">,</span>
+                 <span class="n">event_rate_array</span><span class="p">,</span> <span class="n">non_event_rate_array</span><span class="p">,</span> <span class="n">split_points</span><span class="p">,</span> <span class="n">iv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">woe_array</span> <span class="o">=</span> <span class="n">woe_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv_array</span> <span class="o">=</span> <span class="n">iv_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event_count_array</span> <span class="o">=</span> <span class="n">event_count_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_event_count_array</span> <span class="o">=</span> <span class="n">non_event_count_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event_rate_array</span> <span class="o">=</span> <span class="n">event_rate_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_event_rate_array</span> <span class="o">=</span> <span class="n">non_event_rate_array</span>
+        <span class="k">if</span> <span class="n">split_points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">split_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">split_points</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># Remove those repeated split points</span>
+            <span class="k">for</span> <span class="n">s_p</span> <span class="ow">in</span> <span class="n">split_points</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">s_p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_points</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">split_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_p</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">iv</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">woe</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">woe_array</span><span class="p">):</span>
+                <span class="n">non_event_rate</span> <span class="o">=</span> <span class="n">non_event_count_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                <span class="n">event_rate</span> <span class="o">=</span> <span class="n">event_rate_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                <span class="n">iv</span> <span class="o">+=</span> <span class="p">(</span><span class="n">non_event_rate</span> <span class="o">-</span> <span class="n">event_rate</span><span class="p">)</span> <span class="o">*</span> <span class="n">woe</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv</span> <span class="o">=</span> <span class="n">iv</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_woe_monotonic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the woe is monotonic or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">woe_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">woe_array</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">woe_array</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">is_increasing</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">woe_array</span><span class="p">,</span> <span class="n">woe_array</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+        <span class="n">is_decreasing</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">woe_array</span><span class="p">,</span> <span class="n">woe_array</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+        <span class="k">return</span> <span class="n">is_increasing</span> <span class="ow">or</span> <span class="n">is_decreasing</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bin_nums</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">woe_array</span><span class="p">)</span>
+
+<div class="viewcode-block" id="IVAttributes.result_dict"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.IVAttributes.result_dict">[docs]</a>    <span class="k">def</span> <span class="nf">result_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">save_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="n">save_dict</span><span class="p">[</span><span class="s1">&#39;is_woe_monotonic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_woe_monotonic</span>
+        <span class="n">save_dict</span><span class="p">[</span><span class="s1">&#39;bin_nums&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_nums</span>
+        <span class="k">return</span> <span class="n">save_dict</span></div>
+
+<div class="viewcode-block" id="IVAttributes.display_result"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.IVAttributes.display_result">[docs]</a>    <span class="k">def</span> <span class="nf">display_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">display_results</span><span class="p">):</span>
+        <span class="n">save_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result_dict</span><span class="p">()</span>
+        <span class="n">dis_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">d_s</span> <span class="ow">in</span> <span class="n">display_results</span><span class="p">:</span>
+            <span class="n">dis_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2">;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d_s</span><span class="p">,</span> <span class="n">save_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d_s</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">dis_str</span></div>
+
+<div class="viewcode-block" id="IVAttributes.reconstruct"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.IVAttributes.reconstruct">[docs]</a>    <span class="k">def</span> <span class="nf">reconstruct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iv_obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">woe_array</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iv_obj</span><span class="o">.</span><span class="n">woe_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv_array</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iv_obj</span><span class="o">.</span><span class="n">iv_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event_count_array</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iv_obj</span><span class="o">.</span><span class="n">event_count_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_event_count_array</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iv_obj</span><span class="o">.</span><span class="n">non_event_count_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event_rate_array</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iv_obj</span><span class="o">.</span><span class="n">event_rate_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_event_rate_array</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iv_obj</span><span class="o">.</span><span class="n">non_event_rate_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">split_points</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iv_obj</span><span class="o">.</span><span class="n">split_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv</span> <span class="o">=</span> <span class="n">iv_obj</span><span class="o">.</span><span class="n">iv</span></div></div>
+
+<div class="viewcode-block" id="Binning"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning">[docs]</a><span class="k">class</span> <span class="nc">Binning</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bin_num</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">bin_num</span>
+
+<div class="viewcode-block" id="Binning.binning"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.binning">[docs]</a>    <span class="k">def</span> <span class="nf">binning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_instances</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Should not call this class directly&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Binning.transform"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_instances</span><span class="p">,</span> <span class="n">split_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply the binning method</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_instances : DTable</span>
+<span class="sd">            The input data</span>
+
+<span class="sd">        split_points : list.</span>
+<span class="sd">            Each row represent for the split points for a feature. The element in each row represent for</span>
+<span class="sd">            the corresponding split point.</span>
+<span class="sd">            e.g.</span>
+<span class="sd">            split_points = [[0.1, 0.2, 0.3, 0.4 ...],    # The first feature</span>
+<span class="sd">                            [1, 2, 3, 4, ...],           # The second feature</span>
+<span class="sd">                            ...]                         # Other features</span>
+
+<span class="sd">        cols : int or list of int</span>
+<span class="sd">            Specify which column(s) need to apply binning. -1 means do binning for all columns.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data_bin_table : DTable.</span>
+<span class="sd">            The element in each row represent for the corresponding bin number this feature belongs to.</span>
+<span class="sd">            e.g. for each row, it could be:</span>
+<span class="sd">            (1, 5, 2, 6, 0, ...)    # Each number represent for the bin number it belongs to. The order is the</span>
+<span class="sd">                                # same as the order of cols.</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">cols</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">features_shape</span> <span class="o">=</span> <span class="n">get_features_shape</span><span class="p">(</span><span class="n">data_instances</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">features_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot get feature shape, please check input data&#39;</span><span class="p">)</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features_shape</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_points</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">split_points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">split_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">binning</span><span class="p">(</span><span class="n">data_instances</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bin_data</span><span class="p">,</span>
+                              <span class="n">split_points</span><span class="o">=</span><span class="n">split_points</span><span class="p">,</span>
+                              <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+        <span class="n">data_bin_table</span> <span class="o">=</span> <span class="n">data_instances</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_bin_table</span></div>
+
+<div class="viewcode-block" id="Binning.cal_local_iv"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.cal_local_iv">[docs]</a>    <span class="k">def</span> <span class="nf">cal_local_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_instances</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">split_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label_table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cols</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">features_shape</span> <span class="o">=</span> <span class="n">get_features_shape</span><span class="p">(</span><span class="n">data_instances</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">features_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot get feature shape, please check input data&#39;</span><span class="p">)</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features_shape</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">split_points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">split_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">binning</span><span class="p">(</span><span class="n">data_instances</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+
+        <span class="n">data_bin_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_instances</span><span class="p">,</span> <span class="n">split_points</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">label_table</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">label_table</span> <span class="o">=</span> <span class="n">data_instances</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">event_count_table</span> <span class="o">=</span> <span class="n">label_table</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">))</span>
+        <span class="n">data_bin_with_label</span> <span class="o">=</span> <span class="n">data_bin_table</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">event_count_table</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add_label_in_partition</span><span class="p">,</span>
+                              <span class="n">total_bin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bin_num</span><span class="p">,</span>
+                              <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+        <span class="n">result_sum</span> <span class="o">=</span> <span class="n">data_bin_with_label</span><span class="o">.</span><span class="n">mapPartitions</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">result_counts</span> <span class="o">=</span> <span class="n">result_sum</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate_partition_label</span><span class="p">)</span>
+        <span class="n">iv_attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_iv_woe</span><span class="p">(</span><span class="n">result_counts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">adjustment_factor</span><span class="p">,</span>
+                                   <span class="n">split_points</span><span class="o">=</span><span class="n">split_points</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">iv_attrs</span></div>
+
+<div class="viewcode-block" id="Binning.bin_data"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.bin_data">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bin_data</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">split_points</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="n">result_bin_nums</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">col_index</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+            <span class="n">col_split_points</span> <span class="o">=</span> <span class="n">split_points</span><span class="p">[</span><span class="n">col_index</span><span class="p">]</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+            <span class="n">col_bin_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">col_split_points</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">bin_num</span><span class="p">,</span> <span class="n">split_point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_split_points</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">split_point</span><span class="p">:</span>
+                    <span class="n">col_bin_num</span> <span class="o">=</span> <span class="n">bin_num</span>
+                    <span class="k">break</span>
+            <span class="n">result_bin_nums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_bin_num</span><span class="p">)</span>
+        <span class="n">result_bin_nums</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">result_bin_nums</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result_bin_nums</span></div>
+
+<div class="viewcode-block" id="Binning.woe_1d"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.woe_1d">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">woe_1d</span><span class="p">(</span><span class="n">data_event_count</span><span class="p">,</span> <span class="n">adjustment_factor</span><span class="p">,</span> <span class="n">split_points</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given event and non-event count in one column, calculate its woe value.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_event_count : list</span>
+<span class="sd">            [(event_sum, non-event_sum), (same sum in second_bin), (in third bin) ...]</span>
+
+<span class="sd">        adjustment_factor : float</span>
+<span class="sd">            The adjustment factor when calculating WOE</span>
+
+<span class="sd">        split_points : list</span>
+<span class="sd">            Use to display in the final result</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        IVAttributes : object</span>
+<span class="sd">            Stored information that related iv and woe value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">event_total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">non_event_total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">event_sum</span><span class="p">,</span> <span class="n">non_event_sum</span> <span class="ow">in</span> <span class="n">data_event_count</span><span class="p">:</span>
+            <span class="n">event_total</span> <span class="o">+=</span> <span class="n">event_sum</span>
+            <span class="n">non_event_total</span> <span class="o">+=</span> <span class="n">non_event_sum</span>
+        <span class="c1"># LOGGER.debug(&quot;In woe_1d func, data_event_count is {}, event_total: {}, non_event_total: {}&quot;.format(</span>
+        <span class="c1">#     data_event_count, event_total, non_event_total</span>
+        <span class="c1"># ))</span>
+        <span class="k">if</span> <span class="n">event_total</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NO event label in target data&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">non_event_total</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NO non-event label in target data&quot;</span><span class="p">)</span>
+
+        <span class="n">iv</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">event_count_array</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">non_event_count_array</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">event_rate_array</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">non_event_rate_array</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">woe_array</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iv_array</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">event_count</span><span class="p">,</span> <span class="n">non_event_count</span> <span class="ow">in</span> <span class="n">data_event_count</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">event_count</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">non_event_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">event_count</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">non_event_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">event_rate</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">event_count</span> <span class="o">+</span> <span class="n">adjustment_factor</span><span class="p">)</span> <span class="o">/</span> <span class="n">event_total</span>
+                <span class="n">non_event_rate</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">non_event_count</span> <span class="o">+</span> <span class="n">adjustment_factor</span><span class="p">)</span> <span class="o">/</span> <span class="n">non_event_total</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">event_rate</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">event_count</span> <span class="o">/</span> <span class="n">event_total</span>
+                <span class="n">non_event_rate</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">non_event_count</span> <span class="o">/</span> <span class="n">non_event_total</span>
+            <span class="n">woe_i</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">non_event_rate</span> <span class="o">/</span> <span class="n">event_rate</span><span class="p">)</span>
+
+            <span class="n">event_count_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event_count</span><span class="p">)</span>
+            <span class="n">non_event_count_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">non_event_count</span><span class="p">)</span>
+            <span class="n">event_rate_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event_rate</span><span class="p">)</span>
+            <span class="n">non_event_rate_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">non_event_rate</span><span class="p">)</span>
+            <span class="n">woe_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">woe_i</span><span class="p">)</span>
+            <span class="n">iv_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">non_event_rate</span> <span class="o">-</span> <span class="n">event_rate</span><span class="p">)</span> <span class="o">*</span> <span class="n">woe_i</span>
+            <span class="n">iv_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iv_i</span><span class="p">)</span>
+            <span class="n">iv</span> <span class="o">+=</span> <span class="n">iv_i</span>
+        <span class="k">return</span> <span class="n">IVAttributes</span><span class="p">(</span><span class="n">woe_array</span><span class="o">=</span><span class="n">woe_array</span><span class="p">,</span> <span class="n">iv_array</span><span class="o">=</span><span class="n">iv_array</span><span class="p">,</span> <span class="n">event_count_array</span><span class="o">=</span><span class="n">event_count_array</span><span class="p">,</span>
+                            <span class="n">non_event_count_array</span><span class="o">=</span><span class="n">non_event_count_array</span><span class="p">,</span> <span class="n">split_points</span><span class="o">=</span><span class="n">split_points</span><span class="p">,</span>
+                            <span class="n">event_rate_array</span><span class="o">=</span><span class="n">event_rate_array</span><span class="p">,</span> <span class="n">non_event_rate_array</span><span class="o">=</span><span class="n">non_event_rate_array</span><span class="p">,</span> <span class="n">iv</span><span class="o">=</span><span class="n">iv</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Binning.cal_iv_woe"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.cal_iv_woe">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">cal_iv_woe</span><span class="p">(</span><span class="n">result_counts</span><span class="p">,</span> <span class="n">adjustment_factor</span><span class="p">,</span> <span class="n">split_points</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given event count information calculate iv information</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        result_counts: DTable.</span>
+<span class="sd">            It is like:</span>
+<span class="sd">            [[(event_sum, non-event_sum), (same sum in second_bin), (in third bin) ... (first col in cols)],</span>
+<span class="sd">            [(event_sum, non-event_sum), ... (second col in cols)],</span>
+<span class="sd">            ...]</span>
+
+<span class="sd">        adjustment_factor : float</span>
+<span class="sd">            The adjustment factor when calculating WOE</span>
+
+<span class="sd">        split_points : list</span>
+<span class="sd">            Use to display in the final result</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of IVAttributes object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result_ivs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">data_event_count</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result_counts</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">split_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">feature_split_point</span> <span class="o">=</span> <span class="n">split_points</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">feature_split_point</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">result_ivs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Binning</span><span class="o">.</span><span class="n">woe_1d</span><span class="p">(</span><span class="n">data_event_count</span><span class="p">,</span> <span class="n">adjustment_factor</span><span class="p">,</span> <span class="n">feature_split_point</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result_ivs</span></div>
+
+<div class="viewcode-block" id="Binning.add_label_in_partition"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.add_label_in_partition">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_label_in_partition</span><span class="p">(</span><span class="n">data_bin_with_table</span><span class="p">,</span> <span class="n">total_bin</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">encryptor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add all label, so that become convenient to calculate woe and iv</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_bin_with_table : DTable</span>
+<span class="sd">            The input data, the DTable is like:</span>
+<span class="sd">            (id, (1, 5, 2, 6, 0, ...), y, 1 - y)</span>
+
+<span class="sd">        total_bin : int, &gt; 0</span>
+<span class="sd">            Specify the largest bin number</span>
+
+<span class="sd">        cols : list of int or int,</span>
+<span class="sd">            Specify which columns need to calculated. -1 represent for all columns</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        result_sum: the result DTable. It is like:</span>
+<span class="sd">            [[(event_count, non_event_count), (same sum in second_bin), (in third bin) ... (first feature in cols)],</span>
+<span class="sd">             [(event_count, non_event_count), ... (second feature in cols)],</span>
+<span class="sd">             ...]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result_sum</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># LOGGER.debug(&quot;In add_label_in_partition, cols: {}&quot;.format(cols))</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">result_col_sum</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">bin_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_bin</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">encryptor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">result_col_sum</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">result_col_sum</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">result_sum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_col_sum</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">datas</span> <span class="ow">in</span> <span class="n">data_bin_with_table</span><span class="p">:</span>
+            <span class="n">bin_idxs</span> <span class="o">=</span> <span class="n">datas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y_combo</span> <span class="o">=</span> <span class="n">datas</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># LOGGER.debug(&quot;In data_bin_with_table loop, bin_idxs: {}, y: {}, inverse_y: {}&quot;.format(</span>
+            <span class="c1">#     bin_idxs, y_combo[0], y_combo[1]</span>
+            <span class="c1"># ))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y_combo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">inverse_y</span> <span class="o">=</span> <span class="n">y_combo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">bin_idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bin_idxs</span><span class="p">):</span>
+                <span class="n">col_sum</span> <span class="o">=</span> <span class="n">result_sum</span><span class="p">[</span><span class="n">col_idx</span><span class="p">]</span>
+                <span class="n">label_sum</span> <span class="o">=</span> <span class="n">col_sum</span><span class="p">[</span><span class="n">bin_idx</span><span class="p">]</span>
+                <span class="n">label_sum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_sum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span>
+                <span class="n">label_sum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_sum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">inverse_y</span>
+                <span class="n">col_sum</span><span class="p">[</span><span class="n">bin_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_sum</span>
+                <span class="n">result_sum</span><span class="p">[</span><span class="n">col_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_sum</span>
+
+        <span class="k">return</span> <span class="n">result_sum</span></div>
+
+<div class="viewcode-block" id="Binning.aggregate_partition_label"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.Binning.aggregate_partition_label">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">aggregate_partition_label</span><span class="p">(</span><span class="n">sum1</span><span class="p">,</span> <span class="n">sum2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used in reduce function. Aggregate the result calculate from each partition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sum1 :  DTable.</span>
+<span class="sd">            It is like:</span>
+<span class="sd">            [[(event_count, non_event_count), (same sum in second_bin), (in third bin) ... (first feature in cols)],</span>
+<span class="sd">            [(event_count, non_event_count), ... (second feature in cols)],</span>
+<span class="sd">            ...]</span>
+
+<span class="sd">        sum2 : DTable</span>
+<span class="sd">            Same as sum1</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Merged sum. The format is same as sum1.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sum1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sum2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">sum1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sum2</span>
+
+        <span class="k">if</span> <span class="n">sum2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sum1</span>
+
+        <span class="n">new_result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">feature_sum1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sum1</span><span class="p">):</span>
+            <span class="n">feature_sum2</span> <span class="o">=</span> <span class="n">sum2</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">tmp_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">label_sum1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feature_sum1</span><span class="p">):</span>
+                <span class="n">label_sum2</span> <span class="o">=</span> <span class="n">feature_sum2</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="p">(</span><span class="n">label_sum1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">label_sum2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label_sum1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">label_sum2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">tmp_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+            <span class="n">new_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_result</span></div></div>
+
+
+<div class="viewcode-block" id="QuantileBinning"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.QuantileBinning">[docs]</a><span class="k">class</span> <span class="nc">QuantileBinning</span><span class="p">(</span><span class="n">Binning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    After quantile binning, the numbers of elements in each binning are equal.</span>
+
+<span class="sd">    The result of this algorithm has the following deterministic bound:</span>
+<span class="sd">    If the data_instances has N elements and if we request the quantile at probability `p` up to error</span>
+<span class="sd">    `err`, then the algorithm will return a sample `x` from the data so that the *exact* rank</span>
+<span class="sd">    of `x` is close to (p * N).</span>
+<span class="sd">    More precisely,</span>
+
+<span class="sd">    {{{</span>
+<span class="sd">      floor((p - 2 * err) * N) &lt;= rank(x) &lt;= ceil((p + 2 * err) * N)</span>
+<span class="sd">    }}}</span>
+
+<span class="sd">    This method implements a variation of the Greenwald-Khanna algorithm (with some speed</span>
+<span class="sd">    optimizations).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">QuantileBinning</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">summary_list</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="QuantileBinning.binning"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.QuantileBinning.binning">[docs]</a>    <span class="k">def</span> <span class="nf">binning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_instances</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply the binning method</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_instances : DTable</span>
+<span class="sd">            The input data</span>
+
+<span class="sd">        cols : int or list of int</span>
+<span class="sd">            Specify which column(s) need to apply binning. -1 means do binning for all columns.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        split_points, 2-dimension list.</span>
+<span class="sd">            Each row represent for the split points for a feature. The element in each row represent for</span>
+<span class="sd">            the corresponding split point.</span>
+<span class="sd">            e.g.</span>
+<span class="sd">            split_points = [[0.1, 0.2, 0.3, 0.4 ...],    # The first feature</span>
+<span class="sd">                            [1, 2, 3, 4, ...],           # The second feature</span>
+<span class="sd">                            ...]                         # Other features</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">percent_value</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_num</span>
+        <span class="c1"># calculate the split points</span>
+        <span class="n">percentile_rate</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">percent_value</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_num</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">approxiQuantile</span><span class="p">,</span>
+                                  <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span>
+                                  <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">summary_list</span> <span class="o">=</span> <span class="n">data_instances</span><span class="o">.</span><span class="n">mapPartitions</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">summary_list</span> <span class="o">=</span> <span class="n">summary_list</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_summary_list</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">summary_list</span> <span class="o">=</span> <span class="n">summary_list</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary_list</span>
+        <span class="n">split_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">percen_rate</span> <span class="ow">in</span> <span class="n">percentile_rate</span><span class="p">:</span>
+            <span class="n">feature_dimension_points</span> <span class="o">=</span> <span class="p">[</span><span class="n">s_l</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">percen_rate</span><span class="p">)</span> <span class="k">for</span> <span class="n">s_l</span> <span class="ow">in</span> <span class="n">summary_list</span><span class="p">]</span>
+            <span class="n">split_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature_dimension_points</span><span class="p">)</span>
+        <span class="n">split_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">split_points</span><span class="p">)</span>
+        <span class="n">split_points</span> <span class="o">=</span> <span class="n">split_points</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">split_points</span></div>
+
+<div class="viewcode-block" id="QuantileBinning.approxiQuantile"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.QuantileBinning.approxiQuantile">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">approxiQuantile</span><span class="p">(</span><span class="n">data_instances</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="c1"># cols == -1 means all features</span>
+        <span class="k">if</span> <span class="n">cols</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">features_shape</span> <span class="o">=</span> <span class="n">get_features_shape</span><span class="p">(</span><span class="n">data_instances</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">features_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot get feature shape, please check input data&#39;</span><span class="p">)</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features_shape</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+
+        <span class="n">num_of_qs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+        <span class="n">summary_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_qs</span><span class="p">):</span>
+            <span class="n">quantile_summaries</span> <span class="o">=</span> <span class="n">QuantileSummaries</span><span class="p">(</span><span class="n">compress_thres</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">compress_thres</span><span class="p">,</span>
+                                                   <span class="n">head_size</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">head_size</span><span class="p">,</span>
+                                                   <span class="n">error</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+            <span class="n">summary_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">quantile_summaries</span><span class="p">)</span>
+        <span class="n">QuantileBinning</span><span class="o">.</span><span class="n">insert_datas</span><span class="p">(</span><span class="n">data_instances</span><span class="p">,</span> <span class="n">summary_list</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">summary_list</span></div>
+
+<div class="viewcode-block" id="QuantileBinning.insert_datas"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.QuantileBinning.insert_datas">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">insert_datas</span><span class="p">(</span><span class="n">data_instances</span><span class="p">,</span> <span class="n">summary_list</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">iter_key</span><span class="p">,</span> <span class="n">instant</span> <span class="ow">in</span> <span class="n">data_instances</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">instant</span><span class="o">.</span><span class="n">features</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">summary</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">summary_list</span><span class="p">):</span>
+                <span class="n">feature_id</span> <span class="o">=</span> <span class="n">cols</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                <span class="n">summary</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">feature_id</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="QuantileBinning.merge_summary_list"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.QuantileBinning.merge_summary_list">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">merge_summary_list</span><span class="p">(</span><span class="n">s_list1</span><span class="p">,</span> <span class="n">s_list2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">s_list1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">s_list2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">s_list1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s_list2</span>
+        <span class="k">if</span> <span class="n">s_list2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s_list1</span>
+
+        <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">summary1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s_list1</span><span class="p">):</span>
+            <span class="n">summary1</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">s_list2</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+            <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_list</span></div>
+
+<div class="viewcode-block" id="QuantileBinning.query_quantile_point"><a class="viewcode-back" href="../../../federatedml.feature.html#federatedml.feature.binning.QuantileBinning.query_quantile_point">[docs]</a>    <span class="k">def</span> <span class="nf">query_quantile_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_instances</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">query_points</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">approxiQuantile</span><span class="p">,</span>
+                                  <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span>
+                                  <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">summary_list</span> <span class="o">=</span> <span class="n">data_instances</span><span class="o">.</span><span class="n">mapPartitions</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">summary_list</span> <span class="o">=</span> <span class="n">summary_list</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_summary_list</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">summary_list</span> <span class="o">=</span> <span class="n">summary_list</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary_list</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query_points</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="n">query_points</span> <span class="o">=</span> <span class="p">[</span><span class="n">query_points</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">query_points</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">query_points</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;number of quantile points are not equal to number of select_cols&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">query_point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">query_points</span><span class="p">):</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">summary_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_point</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Webank FATE TEAM
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

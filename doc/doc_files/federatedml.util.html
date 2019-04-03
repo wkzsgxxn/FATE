@@ -1,0 +1,1472 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>federatedml.util package &mdash; FATE 0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FATE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">federatedml.util package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.classfiy_label_checker">federatedml.util.classfiy_label_checker module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.consts">federatedml.util.consts module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.data_io">federatedml.util.data_io module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.fate_operator">federatedml.util.fate_operator module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.param_checker">federatedml.util.param_checker module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.param_extract">federatedml.util.param_extract module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.transfer_variable">federatedml.util.transfer_variable module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util.transfer_variable_generator">federatedml.util.transfer_variable_generator module</a></li>
+<li><a class="reference internal" href="#module-federatedml.util">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FATE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>federatedml.util package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/federatedml.util.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="federatedml-util-package">
+<h1>federatedml.util package<a class="headerlink" href="#federatedml-util-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="federatedml.util.test.html">federatedml.util.test package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.util.test.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.util.test.html#module-federatedml.util.test.classify_label_checker_test">federatedml.util.test.classify_label_checker_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.util.test.html#module-federatedml.util.test.data_io_test">federatedml.util.test.data_io_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.util.test.html#module-federatedml.util.test.param_extract_test">federatedml.util.test.param_extract_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.util.test.html#module-federatedml.util.test.parameter_checker_test">federatedml.util.test.parameter_checker_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="federatedml.util.test.html#module-federatedml.util.test">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.util.classfiy_label_checker">
+<span id="federatedml-util-classfiy-label-checker-module"></span><h2>federatedml.util.classfiy_label_checker module<a class="headerlink" href="#module-federatedml.util.classfiy_label_checker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.util.classfiy_label_checker.ClassifyLabelChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.classfiy_label_checker.</code><code class="descname">ClassifyLabelChecker</code><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#ClassifyLabelChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.classfiy_label_checker.ClassifyLabelChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.classfiy_label_checker.ClassifyLabelChecker.get_all_class">
+<em class="property">static </em><code class="descname">get_all_class</code><span class="sig-paren">(</span><em>kv_iterator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#ClassifyLabelChecker.get_all_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.classfiy_label_checker.ClassifyLabelChecker.get_all_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.classfiy_label_checker.ClassifyLabelChecker.validate_y">
+<em class="property">static </em><code class="descname">validate_y</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#ClassifyLabelChecker.validate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.classfiy_label_checker.ClassifyLabelChecker.validate_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.classfiy_label_checker.RegressionLabelChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.classfiy_label_checker.</code><code class="descname">RegressionLabelChecker</code><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#RegressionLabelChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.classfiy_label_checker.RegressionLabelChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.classfiy_label_checker.RegressionLabelChecker.test_numeric_data">
+<em class="property">static </em><code class="descname">test_numeric_data</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#RegressionLabelChecker.test_numeric_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.classfiy_label_checker.RegressionLabelChecker.test_numeric_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.classfiy_label_checker.RegressionLabelChecker.validate_y">
+<em class="property">static </em><code class="descname">validate_y</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#RegressionLabelChecker.validate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.classfiy_label_checker.RegressionLabelChecker.validate_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.util.consts">
+<span id="federatedml-util-consts-module"></span><h2>federatedml.util.consts module<a class="headerlink" href="#module-federatedml.util.consts" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.util.data_io">
+<span id="federatedml-util-data-io-module"></span><h2>federatedml.util.data_io module<a class="headerlink" href="#module-federatedml.util.data_io" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.util.data_io.DenseFeatureReader">
+<em class="property">class </em><code class="descclassname">federatedml.util.data_io.</code><code class="descname">DenseFeatureReader</code><span class="sig-paren">(</span><em>data_io_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.fill_missing_value">
+<code class="descname">fill_missing_value</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.fill_missing_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.fill_missing_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>input_data_labels</em>, <em>table_name</em>, <em>namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.gen_data_instance">
+<code class="descname">gen_data_instance</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>input_data_labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.gen_data_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.gen_data_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.data_io.DenseFeatureReader.gen_output_format">
+<em class="property">static </em><code class="descname">gen_output_format</code><span class="sig-paren">(</span><em>features</em>, <em>data_type='float'</em>, <em>output_format='dense'</em>, <em>missing_impute=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.gen_output_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.gen_output_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.generate_header">
+<code class="descname">generate_header</code><span class="sig-paren">(</span><em>input_data_feature</em>, <em>table_name</em>, <em>namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.generate_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.generate_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.load_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.read_data">
+<code class="descname">read_data</code><span class="sig-paren">(</span><em>table_name</em>, <em>namespace</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.read_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.replace_outlier_value">
+<code class="descname">replace_outlier_value</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.replace_outlier_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.replace_outlier_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.save_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.to_instance">
+<code class="descname">to_instance</code><span class="sig-paren">(</span><em>features</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.to_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.to_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.DenseFeatureReader.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>input_data_labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.DenseFeatureReader.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.data_io.SparseFeatureReader">
+<em class="property">class </em><code class="descclassname">federatedml.util.data_io.</code><code class="descname">SparseFeatureReader</code><span class="sig-paren">(</span><em>data_io_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.gen_data_instance">
+<code class="descname">gen_data_instance</code><span class="sig-paren">(</span><em>input_data</em>, <em>max_feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.gen_data_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.gen_data_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.generate_header">
+<code class="descname">generate_header</code><span class="sig-paren">(</span><em>max_feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.generate_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.generate_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.get_max_feature_index">
+<code class="descname">get_max_feature_index</code><span class="sig-paren">(</span><em>line</em>, <em>delimitor=' '</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.get_max_feature_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.get_max_feature_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.load_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.read_data">
+<code class="descname">read_data</code><span class="sig-paren">(</span><em>table_name</em>, <em>namespace</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.read_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.save_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.data_io.SparseFeatureReader.to_instance">
+<em class="property">static </em><code class="descname">to_instance</code><span class="sig-paren">(</span><em>param_list</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.to_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.to_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseFeatureReader.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseFeatureReader.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.data_io.SparseTagReader">
+<em class="property">class </em><code class="descclassname">federatedml.util.data_io.</code><code class="descname">SparseTagReader</code><span class="sig-paren">(</span><em>data_io_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.agg_tag">
+<code class="descname">agg_tag</code><span class="sig-paren">(</span><em>kvs</em>, <em>delimitor=' '</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.agg_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.agg_tag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.gen_data_instance">
+<code class="descname">gen_data_instance</code><span class="sig-paren">(</span><em>input_data</em>, <em>tags_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.gen_data_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.gen_data_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.generate_header">
+<code class="descname">generate_header</code><span class="sig-paren">(</span><em>tags</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.generate_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.generate_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.load_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.read_data">
+<code class="descname">read_data</code><span class="sig-paren">(</span><em>table_name</em>, <em>namespace</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.read_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.save_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.data_io.SparseTagReader.to_instance">
+<em class="property">static </em><code class="descname">to_instance</code><span class="sig-paren">(</span><em>param_list</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.to_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.to_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.data_io.SparseTagReader.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.SparseTagReader.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.get_one_line">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">get_one_line</code><span class="sig-paren">(</span><em>data_instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#get_one_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.get_one_line" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.load_data_io_model">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">load_data_io_model</code><span class="sig-paren">(</span><em>model_name='DataIO'</em>, <em>model_table=None</em>, <em>model_namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#load_data_io_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.load_data_io_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.load_missing_imputer_model">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">load_missing_imputer_model</code><span class="sig-paren">(</span><em>header=None</em>, <em>model_name='Imputer'</em>, <em>model_table=None</em>, <em>model_namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#load_missing_imputer_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.load_missing_imputer_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.load_outlier_model">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">load_outlier_model</code><span class="sig-paren">(</span><em>header=None</em>, <em>model_name='Outlier'</em>, <em>model_table=None</em>, <em>model_namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#load_outlier_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.load_outlier_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.save_data_io_model">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">save_data_io_model</code><span class="sig-paren">(</span><em>input_format='dense'</em>, <em>delimitor='</em>, <em>'</em>, <em>data_type='str'</em>, <em>with_label=False</em>, <em>label_idx=0</em>, <em>label_type='int'</em>, <em>output_format='dense'</em>, <em>header=None</em>, <em>model_name='DataIO'</em>, <em>model_table=None</em>, <em>model_namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#save_data_io_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.save_data_io_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.save_missing_imputer_model">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">save_missing_imputer_model</code><span class="sig-paren">(</span><em>missing_fill=False</em>, <em>missing_replace_method=None</em>, <em>missing_impute=None</em>, <em>missing_fill_value=None</em>, <em>header=None</em>, <em>model_name='Imputer'</em>, <em>model_table=None</em>, <em>model_namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#save_missing_imputer_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.save_missing_imputer_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.save_outlier_model">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">save_outlier_model</code><span class="sig-paren">(</span><em>outlier_replace=False</em>, <em>outlier_replace_method=None</em>, <em>outlier_impute=None</em>, <em>outlier_replace_value=None</em>, <em>header=None</em>, <em>model_name='Outlier'</em>, <em>model_table=None</em>, <em>model_namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#save_outlier_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.save_outlier_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.data_io.set_schema">
+<code class="descclassname">federatedml.util.data_io.</code><code class="descname">set_schema</code><span class="sig-paren">(</span><em>data_instance</em>, <em>header</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#set_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.data_io.set_schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.util.fate_operator">
+<span id="federatedml-util-fate-operator-module"></span><h2>federatedml.util.fate_operator module<a class="headerlink" href="#module-federatedml.util.fate_operator" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="federatedml.util.fate_operator.dot">
+<code class="descclassname">federatedml.util.fate_operator.</code><code class="descname">dot</code><span class="sig-paren">(</span><em>value</em>, <em>w</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/fate_operator.html#dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.fate_operator.dot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.fate_operator.get_data_shape">
+<code class="descclassname">federatedml.util.fate_operator.</code><code class="descname">get_data_shape</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/fate_operator.html#get_data_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.fate_operator.get_data_shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.fate_operator.get_features_shape">
+<code class="descclassname">federatedml.util.fate_operator.</code><code class="descname">get_features_shape</code><span class="sig-paren">(</span><em>data_instances</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/fate_operator.html#get_features_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.fate_operator.get_features_shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.fate_operator.reduce_add">
+<code class="descclassname">federatedml.util.fate_operator.</code><code class="descname">reduce_add</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/fate_operator.html#reduce_add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.fate_operator.reduce_add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.util.param_checker">
+<span id="federatedml-util-param-checker-module"></span><h2>federatedml.util.param_checker module<a class="headerlink" href="#module-federatedml.util.param_checker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.util.param_checker.AllChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">AllChecker</code><span class="sig-paren">(</span><em>config_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#AllChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.AllChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.param_checker.AllChecker.check_all">
+<code class="descname">check_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#AllChecker.check_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.AllChecker.check_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.BoostingTreeParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">BoostingTreeParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#BoostingTreeParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.BoostingTreeParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.BoostingTreeParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>boost_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#BoostingTreeParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.BoostingTreeParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.CoeffOfVarSelectionParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">CoeffOfVarSelectionParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#CoeffOfVarSelectionParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.CoeffOfVarSelectionParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.CoeffOfVarSelectionParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>feature_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#CoeffOfVarSelectionParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.CoeffOfVarSelectionParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.DataIOParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">DataIOParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DataIOParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.DataIOParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.DataIOParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>dataio_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DataIOParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.DataIOParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.DecisionTreeParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">DecisionTreeParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DecisionTreeParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.DecisionTreeParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.DecisionTreeParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>tree_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DecisionTreeParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.DecisionTreeParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.EncodeParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">EncodeParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EncodeParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.EncodeParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.EncodeParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>encode_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EncodeParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.EncodeParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.EncryptParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">EncryptParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EncryptParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.EncryptParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.EncryptParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>encrypt_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EncryptParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.EncryptParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.EvaluateParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">EvaluateParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EvaluateParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.EvaluateParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.EvaluateParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>evaluate_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EvaluateParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.EvaluateParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.FTLDataParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">FTLDataParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FTLDataParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FTLDataParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.FTLDataParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>ftl_data_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FTLDataParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FTLDataParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.FTLModelParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">FTLModelParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FTLModelParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FTLModelParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.FTLModelParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>ftl_model_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FTLModelParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FTLModelParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.FTLValidDataParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">FTLValidDataParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FTLValidDataParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FTLValidDataParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.FTLValidDataParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>ftl_valid_data_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FTLValidDataParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FTLValidDataParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.FeatureBinningParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">FeatureBinningParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureBinningParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FeatureBinningParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.FeatureBinningParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>binning_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureBinningParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FeatureBinningParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.FeatureSelectionParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">FeatureSelectionParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureSelectionParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FeatureSelectionParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.FeatureSelectionParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>feature_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureSelectionParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.FeatureSelectionParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.IVSelectionParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">IVSelectionParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#IVSelectionParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.IVSelectionParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.IVSelectionParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>feature_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#IVSelectionParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.IVSelectionParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.InitParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">InitParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#InitParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.InitParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.InitParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>init_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#InitParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.InitParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.IntersectParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">IntersectParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#IntersectParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.IntersectParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.IntersectParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>intersect_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#IntersectParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.IntersectParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.LocalModelParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">LocalModelParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#LocalModelParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.LocalModelParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.LocalModelParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>local_model_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#LocalModelParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.LocalModelParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.LogisticParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">LogisticParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#LogisticParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.LogisticParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.LogisticParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>logistic_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#LogisticParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.LogisticParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.ObjectiveParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">ObjectiveParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#ObjectiveParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.ObjectiveParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.ObjectiveParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>objective_param</em>, <em>task_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#ObjectiveParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.ObjectiveParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.OutlierColsSelectionParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">OutlierColsSelectionParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#OutlierColsSelectionParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.OutlierColsSelectionParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.OutlierColsSelectionParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>feature_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#OutlierColsSelectionParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.OutlierColsSelectionParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.PredictParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">PredictParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#PredictParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.PredictParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.PredictParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>predict_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#PredictParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.PredictParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.SampleParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">SampleParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#SampleParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.SampleParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.SampleParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>sample_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#SampleParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.SampleParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.ScaleParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">ScaleParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#ScaleParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.ScaleParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.ScaleParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>scale_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#ScaleParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.ScaleParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.UniqueValueParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">UniqueValueParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#UniqueValueParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.UniqueValueParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.UniqueValueParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>feature_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#UniqueValueParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.UniqueValueParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.param_checker.WorkFlowParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_checker.</code><code class="descname">WorkFlowParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#WorkFlowParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.WorkFlowParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_checker.WorkFlowParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>workflow_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#WorkFlowParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.WorkFlowParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_and_change_lower">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_and_change_lower</code><span class="sig-paren">(</span><em>param</em>, <em>valid_list</em>, <em>descr=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_and_change_lower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_and_change_lower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_boolean">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_boolean</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_boolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_boolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_decimal_float">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_decimal_float</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_decimal_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_decimal_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_defined_type">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_defined_type</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em>, <em>types</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_defined_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_defined_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_open_unit_interval">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_open_unit_interval</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_open_unit_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_open_unit_interval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_positive_integer">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_positive_integer</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_positive_integer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_positive_integer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_positive_number">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_positive_number</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_positive_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_positive_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_string">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_string</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="federatedml.util.param_checker.check_valid_value">
+<code class="descclassname">federatedml.util.param_checker.</code><code class="descname">check_valid_value</code><span class="sig-paren">(</span><em>param</em>, <em>descr</em>, <em>valid_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#check_valid_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_checker.check_valid_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.util.param_extract">
+<span id="federatedml-util-param-extract-module"></span><h2>federatedml.util.param_extract module<a class="headerlink" href="#module-federatedml.util.param_extract" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.util.param_extract.ParamExtract">
+<em class="property">class </em><code class="descclassname">federatedml.util.param_extract.</code><code class="descname">ParamExtract</code><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_extract.ParamExtract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.param_extract.ParamExtract.is_class">
+<em class="property">static </em><code class="descname">is_class</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract.is_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_extract.ParamExtract.is_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.param_extract.ParamExtract.parse_param_from_config">
+<em class="property">static </em><code class="descname">parse_param_from_config</code><span class="sig-paren">(</span><em>param_var</em>, <em>config_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract.parse_param_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_extract.ParamExtract.parse_param_from_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.param_extract.ParamExtract.recursive_parse_param_from_config">
+<em class="property">static </em><code class="descname">recursive_parse_param_from_config</code><span class="sig-paren">(</span><em>param</em>, <em>config_json</em>, <em>valid_classes</em>, <em>param_parse_depth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract.recursive_parse_param_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.param_extract.ParamExtract.recursive_parse_param_from_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.util.transfer_variable">
+<span id="federatedml-util-transfer-variable-module"></span><h2>federatedml.util.transfer_variable module<a class="headerlink" href="#module-federatedml.util.transfer_variable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.BaseTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">BaseTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.BaseTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.BaseTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.BaseTransferVariable.generate_transferid">
+<code class="descname">generate_transferid</code><span class="sig-paren">(</span><em>transfer_var</em>, <em>*suffix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable.generate_transferid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.BaseTransferVariable.generate_transferid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.BaseTransferVariable.set_flowid">
+<code class="descname">set_flowid</code><span class="sig-paren">(</span><em>flowid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable.set_flowid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.BaseTransferVariable.set_flowid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroDNNLRTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroDNNLRTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroDNNLRTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroDNNLRTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroDNNLRTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroDNNLRTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroDNNLRTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroDecisionTreeTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroDecisionTreeTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroDecisionTreeTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroDecisionTreeTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroDecisionTreeTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroDecisionTreeTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroDecisionTreeTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroFTLTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroFTLTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroFTLTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroFTLTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroFTLTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroFTLTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroFTLTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroFeatureBinningTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroFeatureBinningTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroFeatureBinningTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroFeatureBinningTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroFeatureBinningTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroFeatureBinningTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroFeatureBinningTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroFeatureSelectionTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroFeatureSelectionTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroFeatureSelectionTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroFeatureSelectionTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroFeatureSelectionTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroFeatureSelectionTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroFeatureSelectionTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroLRTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroLRTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroLRTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroLRTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroLRTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroLRTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroLRTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroSecureBoostingTreeTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroSecureBoostingTreeTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroSecureBoostingTreeTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroSecureBoostingTreeTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroSecureBoostingTreeTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroSecureBoostingTreeTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroSecureBoostingTreeTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HeteroWorkFlowTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HeteroWorkFlowTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroWorkFlowTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroWorkFlowTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HeteroWorkFlowTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroWorkFlowTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HeteroWorkFlowTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.HomoLRTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">HomoLRTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HomoLRTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HomoLRTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.HomoLRTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HomoLRTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.HomoLRTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.RawIntersectTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">RawIntersectTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RawIntersectTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.RawIntersectTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.RawIntersectTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RawIntersectTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.RawIntersectTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.RsaIntersectTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">RsaIntersectTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RsaIntersectTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.RsaIntersectTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.RsaIntersectTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RsaIntersectTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.RsaIntersectTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.SampleTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">SampleTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#SampleTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.SampleTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.SampleTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#SampleTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.SampleTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.SecureAddExampleTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">SecureAddExampleTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#SecureAddExampleTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.SecureAddExampleTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable.SecureAddExampleTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#SecureAddExampleTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.SecureAddExampleTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.transfer_variable.Variable">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable.</code><code class="descname">Variable</code><span class="sig-paren">(</span><em>name</em>, <em>auth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#Variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable.Variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.util.transfer_variable_generator">
+<span id="federatedml-util-transfer-variable-generator-module"></span><h2>federatedml.util.transfer_variable_generator module<a class="headerlink" href="#module-federatedml.util.transfer_variable_generator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.util.transfer_variable_generator.TransferVariableGenerator">
+<em class="property">class </em><code class="descclassname">federatedml.util.transfer_variable_generator.</code><code class="descname">TransferVariableGenerator</code><span class="sig-paren">(</span><em>conf_path=None</em>, <em>out_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable_generator.TransferVariableGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.transfer_variable_generator.TransferVariableGenerator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable_generator.TransferVariableGenerator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.transfer_variable_generator.TransferVariableGenerator.write_base_class">
+<code class="descname">write_base_class</code><span class="sig-paren">(</span><em>writer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator.write_base_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable_generator.TransferVariableGenerator.write_base_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.transfer_variable_generator.TransferVariableGenerator.write_out_class">
+<code class="descname">write_out_class</code><span class="sig-paren">(</span><em>writer</em>, <em>class_name</em>, <em>transfer_var_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator.write_out_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.transfer_variable_generator.TransferVariableGenerator.write_out_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.util">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-federatedml.util" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.util.TransferVariableGenerator">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">TransferVariableGenerator</code><span class="sig-paren">(</span><em>conf_path=None</em>, <em>out_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.TransferVariableGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.TransferVariableGenerator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.TransferVariableGenerator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.TransferVariableGenerator.write_base_class">
+<code class="descname">write_base_class</code><span class="sig-paren">(</span><em>writer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator.write_base_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.TransferVariableGenerator.write_base_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.TransferVariableGenerator.write_out_class">
+<code class="descname">write_out_class</code><span class="sig-paren">(</span><em>writer</em>, <em>class_name</em>, <em>transfer_var_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable_generator.html#TransferVariableGenerator.write_out_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.TransferVariableGenerator.write_out_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.ParamExtract">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">ParamExtract</code><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.ParamExtract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.ParamExtract.is_class">
+<em class="property">static </em><code class="descname">is_class</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract.is_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.ParamExtract.is_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.ParamExtract.parse_param_from_config">
+<em class="property">static </em><code class="descname">parse_param_from_config</code><span class="sig-paren">(</span><em>param_var</em>, <em>config_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract.parse_param_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.ParamExtract.parse_param_from_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.ParamExtract.recursive_parse_param_from_config">
+<em class="property">static </em><code class="descname">recursive_parse_param_from_config</code><span class="sig-paren">(</span><em>param</em>, <em>config_json</em>, <em>valid_classes</em>, <em>param_parse_depth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_extract.html#ParamExtract.recursive_parse_param_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.ParamExtract.recursive_parse_param_from_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.DenseFeatureReader">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">DenseFeatureReader</code><span class="sig-paren">(</span><em>data_io_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.fill_missing_value">
+<code class="descname">fill_missing_value</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.fill_missing_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.fill_missing_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>input_data_labels</em>, <em>table_name</em>, <em>namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.gen_data_instance">
+<code class="descname">gen_data_instance</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>input_data_labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.gen_data_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.gen_data_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.DenseFeatureReader.gen_output_format">
+<em class="property">static </em><code class="descname">gen_output_format</code><span class="sig-paren">(</span><em>features</em>, <em>data_type='float'</em>, <em>output_format='dense'</em>, <em>missing_impute=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.gen_output_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.gen_output_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.generate_header">
+<code class="descname">generate_header</code><span class="sig-paren">(</span><em>input_data_feature</em>, <em>table_name</em>, <em>namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.generate_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.generate_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.load_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.read_data">
+<code class="descname">read_data</code><span class="sig-paren">(</span><em>table_name</em>, <em>namespace</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.read_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.replace_outlier_value">
+<code class="descname">replace_outlier_value</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.replace_outlier_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.replace_outlier_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.save_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.to_instance">
+<code class="descname">to_instance</code><span class="sig-paren">(</span><em>features</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.to_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.to_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.DenseFeatureReader.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>input_data_features</em>, <em>input_data_labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#DenseFeatureReader.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DenseFeatureReader.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.SparseFeatureReader">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">SparseFeatureReader</code><span class="sig-paren">(</span><em>data_io_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.gen_data_instance">
+<code class="descname">gen_data_instance</code><span class="sig-paren">(</span><em>input_data</em>, <em>max_feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.gen_data_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.gen_data_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.generate_header">
+<code class="descname">generate_header</code><span class="sig-paren">(</span><em>max_feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.generate_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.generate_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.get_max_feature_index">
+<code class="descname">get_max_feature_index</code><span class="sig-paren">(</span><em>line</em>, <em>delimitor=' '</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.get_max_feature_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.get_max_feature_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.load_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.read_data">
+<code class="descname">read_data</code><span class="sig-paren">(</span><em>table_name</em>, <em>namespace</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.read_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.save_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.SparseFeatureReader.to_instance">
+<em class="property">static </em><code class="descname">to_instance</code><span class="sig-paren">(</span><em>param_list</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.to_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.to_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseFeatureReader.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseFeatureReader.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseFeatureReader.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.SparseTagReader">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">SparseTagReader</code><span class="sig-paren">(</span><em>data_io_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.agg_tag">
+<code class="descname">agg_tag</code><span class="sig-paren">(</span><em>kvs</em>, <em>delimitor=' '</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.agg_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.agg_tag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.gen_data_instance">
+<code class="descname">gen_data_instance</code><span class="sig-paren">(</span><em>input_data</em>, <em>tags_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.gen_data_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.gen_data_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.generate_header">
+<code class="descname">generate_header</code><span class="sig-paren">(</span><em>tags</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.generate_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.generate_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.load_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.read_data">
+<code class="descname">read_data</code><span class="sig-paren">(</span><em>table_name</em>, <em>namespace</em>, <em>mode='fit'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.read_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>model_table</em>, <em>model_namespace</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.save_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.SparseTagReader.to_instance">
+<em class="property">static </em><code class="descname">to_instance</code><span class="sig-paren">(</span><em>param_list</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.to_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.to_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.SparseTagReader.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>input_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/data_io.html#SparseTagReader.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SparseTagReader.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.ClassifyLabelChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">ClassifyLabelChecker</code><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#ClassifyLabelChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.ClassifyLabelChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.ClassifyLabelChecker.get_all_class">
+<em class="property">static </em><code class="descname">get_all_class</code><span class="sig-paren">(</span><em>kv_iterator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#ClassifyLabelChecker.get_all_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.ClassifyLabelChecker.get_all_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.ClassifyLabelChecker.validate_y">
+<em class="property">static </em><code class="descname">validate_y</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#ClassifyLabelChecker.validate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.ClassifyLabelChecker.validate_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.RegressionLabelChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">RegressionLabelChecker</code><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#RegressionLabelChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.RegressionLabelChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.RegressionLabelChecker.test_numeric_data">
+<em class="property">static </em><code class="descname">test_numeric_data</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#RegressionLabelChecker.test_numeric_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.RegressionLabelChecker.test_numeric_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.util.RegressionLabelChecker.validate_y">
+<em class="property">static </em><code class="descname">validate_y</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/classfiy_label_checker.html#RegressionLabelChecker.validate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.RegressionLabelChecker.validate_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.BaseTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">BaseTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.BaseTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.BaseTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.BaseTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.BaseTransferVariable.generate_transferid">
+<code class="descname">generate_transferid</code><span class="sig-paren">(</span><em>transfer_var</em>, <em>*suffix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable.generate_transferid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.BaseTransferVariable.generate_transferid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.util.BaseTransferVariable.set_flowid">
+<code class="descname">set_flowid</code><span class="sig-paren">(</span><em>flowid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#BaseTransferVariable.set_flowid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.BaseTransferVariable.set_flowid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.RawIntersectTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">RawIntersectTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RawIntersectTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.RawIntersectTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.RawIntersectTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RawIntersectTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.RawIntersectTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.HeteroDecisionTreeTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">HeteroDecisionTreeTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroDecisionTreeTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HeteroDecisionTreeTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.HeteroDecisionTreeTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroDecisionTreeTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HeteroDecisionTreeTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.HeteroSecureBoostingTreeTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">HeteroSecureBoostingTreeTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroSecureBoostingTreeTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HeteroSecureBoostingTreeTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.HeteroSecureBoostingTreeTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroSecureBoostingTreeTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HeteroSecureBoostingTreeTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.HeteroLRTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">HeteroLRTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroLRTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HeteroLRTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.HeteroLRTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HeteroLRTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HeteroLRTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.RsaIntersectTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">RsaIntersectTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RsaIntersectTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.RsaIntersectTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.RsaIntersectTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#RsaIntersectTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.RsaIntersectTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.HomoLRTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">HomoLRTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HomoLRTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HomoLRTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.HomoLRTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#HomoLRTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.HomoLRTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.SecureAddExampleTransferVariable">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">SecureAddExampleTransferVariable</code><span class="sig-paren">(</span><em>flowid=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#SecureAddExampleTransferVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SecureAddExampleTransferVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#federatedml.util.transfer_variable.BaseTransferVariable" title="federatedml.util.transfer_variable.BaseTransferVariable"><code class="xref py py-class docutils literal notranslate"><span class="pre">federatedml.util.transfer_variable.BaseTransferVariable</span></code></a></p>
+<dl class="method">
+<dt id="federatedml.util.SecureAddExampleTransferVariable.define_transfer_variable">
+<code class="descname">define_transfer_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/transfer_variable.html#SecureAddExampleTransferVariable.define_transfer_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.SecureAddExampleTransferVariable.define_transfer_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.EncodeParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">EncodeParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EncodeParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.EncodeParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.EncodeParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>encode_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#EncodeParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.EncodeParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.IntersectParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">IntersectParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#IntersectParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.IntersectParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.IntersectParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>intersect_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#IntersectParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.IntersectParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.LogisticParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">LogisticParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#LogisticParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.LogisticParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.LogisticParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>logistic_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#LogisticParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.LogisticParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.WorkFlowParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">WorkFlowParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#WorkFlowParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.WorkFlowParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.WorkFlowParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>workflow_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#WorkFlowParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.WorkFlowParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.DataIOParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">DataIOParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DataIOParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DataIOParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.DataIOParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>dataio_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DataIOParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DataIOParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.DecisionTreeParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">DecisionTreeParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DecisionTreeParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DecisionTreeParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.DecisionTreeParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>tree_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#DecisionTreeParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.DecisionTreeParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.BoostingTreeParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">BoostingTreeParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#BoostingTreeParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.BoostingTreeParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.BoostingTreeParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>boost_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#BoostingTreeParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.BoostingTreeParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.FeatureBinningParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">FeatureBinningParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureBinningParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.FeatureBinningParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.FeatureBinningParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>binning_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureBinningParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.FeatureBinningParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.util.FeatureSelectionParamChecker">
+<em class="property">class </em><code class="descclassname">federatedml.util.</code><code class="descname">FeatureSelectionParamChecker</code><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureSelectionParamChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.FeatureSelectionParamChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.util.FeatureSelectionParamChecker.check_param">
+<em class="property">static </em><code class="descname">check_param</code><span class="sig-paren">(</span><em>feature_param</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/util/param_checker.html#FeatureSelectionParamChecker.check_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.util.FeatureSelectionParamChecker.check_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Webank FATE TEAM
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

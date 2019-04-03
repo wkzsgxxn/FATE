@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>federatedml.optim.federated_aggregator package &mdash; FATE 0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FATE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">federatedml.optim.federated_aggregator package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-federatedml.optim.federated_aggregator.hetero_federated_aggregator">federatedml.optim.federated_aggregator.hetero_federated_aggregator module</a></li>
+<li><a class="reference internal" href="#module-federatedml.optim.federated_aggregator.homo_federated_aggregator">federatedml.optim.federated_aggregator.homo_federated_aggregator module</a></li>
+<li><a class="reference internal" href="#module-federatedml.optim.federated_aggregator">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FATE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>federatedml.optim.federated_aggregator package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/federatedml.optim.federated_aggregator.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="federatedml-optim-federated-aggregator-package">
+<h1>federatedml.optim.federated_aggregator package<a class="headerlink" href="#federatedml-optim-federated-aggregator-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-federatedml.optim.federated_aggregator.hetero_federated_aggregator">
+<span id="federatedml-optim-federated-aggregator-hetero-federated-aggregator-module"></span><h2>federatedml.optim.federated_aggregator.hetero_federated_aggregator module<a class="headerlink" href="#module-federatedml.optim.federated_aggregator.hetero_federated_aggregator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator">
+<em class="property">class </em><code class="descclassname">federatedml.optim.federated_aggregator.hetero_federated_aggregator.</code><code class="descname">HeteroFederatedAggregator</code><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.aggregate_add">
+<em class="property">static </em><code class="descname">aggregate_add</code><span class="sig-paren">(</span><em>table_a</em>, <em>table_b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.aggregate_add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.aggregate_add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.aggregate_add_square">
+<em class="property">static </em><code class="descname">aggregate_add_square</code><span class="sig-paren">(</span><em>table_a</em>, <em>table_b</em>, <em>table_a_square</em>, <em>table_b_square</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.aggregate_add_square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.aggregate_add_square" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.aggregate_mean">
+<em class="property">static </em><code class="descname">aggregate_mean</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.aggregate_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.aggregate_mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.separate">
+<em class="property">static </em><code class="descname">separate</code><span class="sig-paren">(</span><em>value</em>, <em>size_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.separate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.hetero_federated_aggregator.HeteroFederatedAggregator.separate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.optim.federated_aggregator.homo_federated_aggregator">
+<span id="federatedml-optim-federated-aggregator-homo-federated-aggregator-module"></span><h2>federatedml.optim.federated_aggregator.homo_federated_aggregator module<a class="headerlink" href="#module-federatedml.optim.federated_aggregator.homo_federated_aggregator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator">
+<em class="property">class </em><code class="descclassname">federatedml.optim.federated_aggregator.homo_federated_aggregator.</code><code class="descname">HomoFederatedAggregator</code><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_grad">
+<em class="property">static </em><code class="descname">aggregate_grad</code><span class="sig-paren">(</span><em>acc</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_grad" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_grad_loss">
+<em class="property">static </em><code class="descname">aggregate_grad_loss</code><span class="sig-paren">(</span><em>acc</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_grad_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_grad_loss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_loss">
+<code class="descname">aggregate_loss</code><span class="sig-paren">(</span><em>transfer_variable</em>, <em>iter_num</em>, <em>party_weights</em>, <em>host_use_encryption</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_loss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_model">
+<code class="descname">aggregate_model</code><span class="sig-paren">(</span><em>transfer_variable</em>, <em>iter_num</em>, <em>party_weights</em>, <em>host_encrypter</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.homo_federated_aggregator.HomoFederatedAggregator.aggregate_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-federatedml.optim.federated_aggregator">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-federatedml.optim.federated_aggregator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="federatedml.optim.federated_aggregator.HomoFederatedAggregator">
+<em class="property">class </em><code class="descclassname">federatedml.optim.federated_aggregator.</code><code class="descname">HomoFederatedAggregator</code><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HomoFederatedAggregator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_grad">
+<em class="property">static </em><code class="descname">aggregate_grad</code><span class="sig-paren">(</span><em>acc</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_grad" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_grad_loss">
+<em class="property">static </em><code class="descname">aggregate_grad_loss</code><span class="sig-paren">(</span><em>acc</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_grad_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_grad_loss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_loss">
+<code class="descname">aggregate_loss</code><span class="sig-paren">(</span><em>transfer_variable</em>, <em>iter_num</em>, <em>party_weights</em>, <em>host_use_encryption</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_loss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_model">
+<code class="descname">aggregate_model</code><span class="sig-paren">(</span><em>transfer_variable</em>, <em>iter_num</em>, <em>party_weights</em>, <em>host_encrypter</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/homo_federated_aggregator.html#HomoFederatedAggregator.aggregate_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HomoFederatedAggregator.aggregate_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="federatedml.optim.federated_aggregator.HeteroFederatedAggregator">
+<em class="property">class </em><code class="descclassname">federatedml.optim.federated_aggregator.</code><code class="descname">HeteroFederatedAggregator</code><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HeteroFederatedAggregator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.HeteroFederatedAggregator.aggregate_add">
+<em class="property">static </em><code class="descname">aggregate_add</code><span class="sig-paren">(</span><em>table_a</em>, <em>table_b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.aggregate_add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HeteroFederatedAggregator.aggregate_add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.HeteroFederatedAggregator.aggregate_add_square">
+<em class="property">static </em><code class="descname">aggregate_add_square</code><span class="sig-paren">(</span><em>table_a</em>, <em>table_b</em>, <em>table_a_square</em>, <em>table_b_square</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.aggregate_add_square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HeteroFederatedAggregator.aggregate_add_square" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.HeteroFederatedAggregator.aggregate_mean">
+<em class="property">static </em><code class="descname">aggregate_mean</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.aggregate_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HeteroFederatedAggregator.aggregate_mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="federatedml.optim.federated_aggregator.HeteroFederatedAggregator.separate">
+<em class="property">static </em><code class="descname">separate</code><span class="sig-paren">(</span><em>value</em>, <em>size_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/federatedml/optim/federated_aggregator/hetero_federated_aggregator.html#HeteroFederatedAggregator.separate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#federatedml.optim.federated_aggregator.HeteroFederatedAggregator.separate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Webank FATE TEAM
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

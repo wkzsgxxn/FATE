@@ -1,0 +1,111 @@
+federatedml.feature package
+===========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    federatedml.feature.hetero_feature_binning
+    federatedml.feature.hetero_feature_selection
+    federatedml.feature.test
+
+Submodules
+----------
+
+federatedml.feature.binning module
+----------------------------------
+
+.. automodule:: federatedml.feature.binning
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.feature\_selection module
+---------------------------------------------
+
+.. automodule:: federatedml.feature.feature_selection
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.imputer module
+----------------------------------
+
+.. automodule:: federatedml.feature.imputer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.instance module
+-----------------------------------
+
+.. automodule:: federatedml.feature.instance
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.min\_max\_scaler module
+-------------------------------------------
+
+.. automodule:: federatedml.feature.min_max_scaler
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.quantile module
+-----------------------------------
+
+.. automodule:: federatedml.feature.quantile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.quantile\_summaries module
+----------------------------------------------
+
+.. automodule:: federatedml.feature.quantile_summaries
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.sampler module
+----------------------------------
+
+.. automodule:: federatedml.feature.sampler
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.scaler module
+---------------------------------
+
+.. automodule:: federatedml.feature.scaler
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.sparse\_vector module
+-----------------------------------------
+
+.. automodule:: federatedml.feature.sparse_vector
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+federatedml.feature.standard\_scaler module
+-------------------------------------------
+
+.. automodule:: federatedml.feature.standard_scaler
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: federatedml.feature
+    :members:
+    :undoc-members:
+    :show-inheritance:
