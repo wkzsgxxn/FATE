@@ -26,7 +26,7 @@ from arch.api.storage import save_data
 
 CSV = 'csv'
 LOAD_DATA_COUNT = 10000
-MAX_PARTITION_NUM = 32
+MAX_PARTITION_NUM = 1024
 
 def list_to_str(input_list):
     str1 = ''
@@ -115,13 +115,13 @@ if __name__ == "__main__":
 
                 try:
                     partition = data['partition']
-                    if partition <= 0 or partition > MAX_PARTITION_NUM:
-                        print("Error number of partition, it should between %d and %d" %(0, MAX_PARTITION_NUM))
-                        sys.exit()
                 except:
                     print("set partition to 1")
                     partition = 1
-
+                finally:
+                    if partition <= 0 or partition > MAX_PARTITION_NUM:
+                        print("Error number of partition, it should between %d and %d" %(0, MAX_PARTITION_NUM))
+                        sys.exit()
 
                 try:
                     table_name = data['table_name']

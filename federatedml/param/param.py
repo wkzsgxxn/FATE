@@ -898,7 +898,7 @@ class ScaleParam(object):
                  Default None, which will do nothing for scale
 
         mode: str, for method is "MinMaxScale" and for "StandardScale" it is useless, the mode just support "normal" now, and will support "cap" mode in the furture. 
-              for mode is "MinMaxScale", the feat_upper and feat_lower is the normal value and for "cap", feat_upper and 
+              for mode is "normal", the feat_upper and feat_lower is the normal value and for "cap", feat_upper and
               feature_lower will between 0 and 1, which means the percentile of the column. Default "normal"
 
         area: str, for method is "MinMaxScale" and for "StandardScale" it is useless. It supports "all" and "col". For "all", 

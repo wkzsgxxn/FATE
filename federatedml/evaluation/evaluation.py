@@ -368,7 +368,7 @@ class Evaluation(object):
 
     def recall(self, labels, pred_scores, thresholds=None, result_filter=None):
         """
-        Compute the precision
+        Compute the recall
         Parameters
         ----------
         labels: value list. The labels of data set.
@@ -398,7 +398,7 @@ class Evaluation(object):
 
     def accuracy(self, labels, pred_scores, thresholds=None, normalize=True):
         """
-        Compute the precision
+        Compute the accuracy
         Parameters
         ----------
         labels: value list. The labels of data set.
