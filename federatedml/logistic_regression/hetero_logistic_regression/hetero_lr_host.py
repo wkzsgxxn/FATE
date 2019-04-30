@@ -35,8 +35,17 @@ class HeteroLRHost(BaseLogisticRegression):
         self.batch_num = None
         self.batch_index_list = []
 
-    def compute_forward(self, data_instances, coef_, intercept_):
-        wx = self.compute_wx(data_instances, coef_, intercept_)
+    def compute_forward(self, data_instance, coef_, intercept_):
+        """
+        Compute W * X + b and (W * X + b)^2, where X is the input data, W is the coefficient of lr,
+        and b is the interception
+        Parameters
+        ----------
+        data_instance: DTable of Instance, input data
+        coef_: list, coefficient of lr
+        intercept_: float, the interception of lr
+        """
+        wx = self.compute_wx(data_instance, coef_, intercept_)
         encrypt_operator = self.encrypt_operator
         host_forward = wx.mapValues(lambda v: (encrypt_operator.encrypt(v), encrypt_operator.encrypt(np.square(v))))
         return host_forward
@@ -56,9 +65,11 @@ class HeteroLRHost(BaseLogisticRegression):
         passed to it. In other words, no feature transformation performed on the raw input of guest.
 
         Parameters:
-        ___________
-        :param data_inst: a table holding instances of raw input of host side
-        :return: a table holding instances with transformed features
+        ----------
+        data_inst: a table holding instances of raw input of host side
+        Returns
+        ----------
+        a table holding instances with transformed features
         """
         return data_inst
 
@@ -76,17 +87,23 @@ class HeteroLRHost(BaseLogisticRegression):
         performed on the local model since there is no one.
 
         Parameters:
-        ___________
-        :param fore_gradient: a table holding fore gradient
-        :param data_inst: a table holding instances of raw input of guest side
-        :param coef: coefficients of logistic regression model
-        :param training_info: a dictionary holding training information
+        ----------
+        fore_gradient: a table holding fore gradient
+        data_inst: a table holding instances of raw input of guest side
+        coef: coefficients of logistic regression model
+        training_info: a dictionary holding training information
         """
         pass
 
-    def fit(self, data_instances):
+    def fit(self, data_instance):
+        """
+        Train lr model of role host
+        Parameters
+        ----------
+        data_instance: DTable of Instance, input data
+        """
         LOGGER.info("Enter hetero_lr host")
-        self.header = data_instances.schema.get("header")
+        self.header = data_instance.schema.get("header")
         public_key = federation.get(name=self.transfer_variable.paillier_pubkey.name,
                                     tag=self.transfer_variable.generate_transferid(
                                         self.transfer_variable.paillier_pubkey),
@@ -103,7 +120,7 @@ class HeteroLRHost(BaseLogisticRegression):
         self.batch_num = batch_info["batch_num"]
 
         LOGGER.info("Start initialize model.")
-        model_shape = self.get_features_shape(data_instances)
+        model_shape = self.get_features_shape(data_instance)
 
         if self.init_param_obj.fit_intercept:
             self.init_param_obj.fit_intercept = False
@@ -132,7 +149,7 @@ class HeteroLRHost(BaseLogisticRegression):
                     batch_data_index = self.batch_index_list[batch_index]
 
                 # Get mini-batch train data
-                batch_data_inst = batch_data_index.join(data_instances, lambda g, d: d)
+                batch_data_inst = batch_data_index.join(data_instance, lambda g, d: d)
 
                 # transforms features of raw input 'batch_data_inst' into more representative features 'batch_feat_inst'
                 batch_feat_inst = self.transform(batch_data_inst)
@@ -215,10 +232,17 @@ class HeteroLRHost(BaseLogisticRegression):
 
         LOGGER.info("Reach max iter {}, train model finish!".format(self.max_iter))
 
-    def predict(self, data_instances, predict_param=None):
+    def predict(self, data_instance, predict_param=None):
+        """
+        Prediction of lr
+        Parameters
+        ----------
+        data_instance:DTable of Instance, input data
+        predict_param: PredictParam, the setting of prediction. Host may not have predict_param
+        """
         LOGGER.info("Start predict ...")
 
-        data_features = self.transform(data_instances)
+        data_features = self.transform(data_instance)
 
         prob_host = self.compute_wx(data_features, self.coef_, self.intercept_)
         federation.remote(prob_host,

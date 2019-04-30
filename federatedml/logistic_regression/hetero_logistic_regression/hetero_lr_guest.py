@@ -39,13 +39,35 @@ class HeteroLRGuest(BaseLogisticRegression):
         self.wx = None
         self.guest_forward = None
 
-    def compute_forward(self, data_instances, coef_, intercept_):
-        self.wx = self.compute_wx(data_instances, coef_, intercept_)
+    def compute_forward(self, data_instance, coef_, intercept_):
+        """
+        Compute W * X + b and (W * X + b)^2, where X is the input data, W is the coefficient of lr,
+        and b is the interception
+        Parameters
+        ----------
+        data_instance: DTable of Instance, input data
+        coef_: list, coefficient of lr
+        intercept_: float, the interception of lr
+        """
+        self.wx = self.compute_wx(data_instance, coef_, intercept_)
         encrypt_operator = self.encrypt_operator
         self.guest_forward = self.wx.mapValues(
             lambda v: (encrypt_operator.encrypt(v), encrypt_operator.encrypt(np.square(v)), v))
 
     def aggregate_forward(self, host_forward):
+        """
+        Compute (en_wx_g + en_wx_h)^2 = en_wx_g^2 + en_wx_h^2 + 2 * wx_g * en_wx_h , where en_wx_g is the encrypted W * X + b of guest, wx_g is unencrypted W * X + b,
+        and en_wx_h is the encrypted W * X + b of host.
+        Parameters
+        ----------
+        host_forward: DTable, include encrypted W * X and (W * X)^2
+
+        Returns
+        ----------
+        aggregate_forward_res
+        list
+            include W * X and (W * X)^2 federate with guest and host
+        """
         aggregate_forward_res = self.guest_forward.join(host_forward,
                                                         lambda g, h: (g[0] + h[0], g[1] + h[1] + 2 * g[2] * h[0]))
         return aggregate_forward_res
@@ -65,9 +87,11 @@ class HeteroLRGuest(BaseLogisticRegression):
         passed to it. In other words, no feature transformation performed on the raw input of guest.
 
         Parameters:
-        ___________
-        :param data_inst: a table holding instances of raw input of guest side
-        :return: a table holding instances with transformed features
+        ----------
+        data_inst: a table holding instances of raw input of guest side
+        Returns:
+        ----------
+        a table holding instances with transformed features
         """
         return data_inst
 
@@ -85,24 +109,36 @@ class HeteroLRGuest(BaseLogisticRegression):
         performed on the local model since there is no one.
 
         Parameters:
-        ___________
-        :param fore_gradient: a table holding fore gradient
-        :param data_inst: a table holding instances of raw input of guest side
-        :param coef: coefficients of logistic regression model
-        :param training_info: a dictionary holding training information
+        ----------
+        fore_gradient: a table holding fore gradient
+        data_inst: a table holding instances of raw input of guest side
+        coef: coefficients of logistic regression model
+        training_info: a dictionary holding training information
         """
         pass
 
     @staticmethod
     def load_data(data_instance):
+        """
+        set the negative label to -1
+        Parameters
+        ----------
+        data_instance: DTable of Instance, input data
+        """
         if data_instance.label != 1:
             data_instance.label = -1
         return data_instance
 
-    def fit(self, data_instances):
+    def fit(self, data_instance):
+        """
+        Train lr model of role guest
+        Parameters
+        ----------
+        data_instance: DTable of Instance, input data
+        """
         LOGGER.info("Enter hetero_lr_guest fit")
-        self.header = data_instances.schema.get("header")
-        data_instances = data_instances.mapValues(HeteroLRGuest.load_data)
+        self.header = data_instance.schema.get("header")
+        data_instance = data_instance.mapValues(HeteroLRGuest.load_data)
 
         public_key = federation.get(name=self.transfer_variable.paillier_pubkey.name,
                                     tag=self.transfer_variable.generate_transferid(
@@ -112,7 +148,7 @@ class HeteroLRGuest(BaseLogisticRegression):
         self.encrypt_operator.set_public_key(public_key)
 
         LOGGER.info("Generate mini-batch from input data")
-        mini_batch_obj = MiniBatch(data_instances, batch_size=self.batch_size)
+        mini_batch_obj = MiniBatch(data_instance, batch_size=self.batch_size)
         batch_info = {"batch_size": self.batch_size, "batch_num": mini_batch_obj.batch_nums}
         LOGGER.info("batch_info:" + str(batch_info))
         federation.remote(batch_info,
@@ -130,7 +166,7 @@ class HeteroLRGuest(BaseLogisticRegression):
 
         LOGGER.info("Start initialize model.")
         LOGGER.info("fit_intercept:{}".format(self.init_param_obj.fit_intercept))
-        model_shape = self.get_features_shape(data_instances)
+        model_shape = self.get_features_shape(data_instance)
         weight = self.initializer.init_model(model_shape, init_params=self.init_param_obj)
         if self.init_param_obj.fit_intercept is True:
             self.coef_ = weight[:-1]
@@ -143,7 +179,7 @@ class HeteroLRGuest(BaseLogisticRegression):
         self.n_iter_ = 0
         while self.n_iter_ < self.max_iter:
             LOGGER.info("iter:{}".format(self.n_iter_))
-            batch_data_generator = mini_batch_obj.mini_batch_index_generator(data_inst=data_instances,
+            batch_data_generator = mini_batch_obj.mini_batch_index_generator(data_inst=data_instance,
                                                                              batch_size=self.batch_size)
             batch_index = 0
             for batch_data_index in batch_data_generator:
@@ -162,7 +198,7 @@ class HeteroLRGuest(BaseLogisticRegression):
                         is_send_all_batch_index = True
 
                 # Get mini-batch train data
-                batch_data_inst = data_instances.join(batch_data_index, lambda data_inst, index: data_inst)
+                batch_data_inst = data_instance.join(batch_data_index, lambda data_inst, index: data_inst)
 
                 # transforms features of raw input 'batch_data_inst' into more representative features 'batch_feat_inst'
                 batch_feat_inst = self.transform(batch_data_inst)
@@ -262,10 +298,21 @@ class HeteroLRGuest(BaseLogisticRegression):
                 break
         LOGGER.info("Reach max iter {}, train model finish!".format(self.max_iter))
 
-    def predict(self, data_instances, predict_param):
-        LOGGER.info("Start predict ...")
+    def predict(self, data_instance, predict_param):
+        """
+        Prediction of lr
+        Parameters
+        ----------
+        data_instance:DTable of Instance, input data
+        predict_param: PredictParam, the setting of prediction.
 
-        data_features = self.transform(data_instances)
+        Returns
+        ----------
+        DTable
+            include input data label, predict probably, label
+        """
+        LOGGER.info("Start predict ...")
+        data_features = self.transform(data_instance)
 
         prob_guest = self.compute_wx(data_features, self.coef_, self.intercept_)
         prob_host = federation.get(name=self.transfer_variable.host_prob.name,
@@ -278,10 +325,10 @@ class HeteroLRGuest(BaseLogisticRegression):
         pred_prob = prob_guest.join(prob_host, lambda g, h: activation.sigmoid(g + h))
         pred_label = self.classified(pred_prob, predict_param.threshold)
         if predict_param.with_proba:
-            labels = data_instances.mapValues(lambda v: v.label)
+            labels = data_instance.mapValues(lambda v: v.label)
             predict_result = labels.join(pred_prob, lambda label, prob: (label, prob))
         else:
-            predict_result = data_instances.mapValues(lambda v: (v.label, None))
+            predict_result = data_instance.mapValues(lambda v: (v.label, None))
 
         predict_result = predict_result.join(pred_label, lambda r, p: (r[0], r[1], p))
         return predict_result

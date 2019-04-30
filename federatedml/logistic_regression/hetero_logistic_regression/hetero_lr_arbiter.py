@@ -55,11 +55,19 @@ class HeteroLRArbiter(BaseLogisticRegression):
         hetero-logistic-regression model, the 'perform_subtasks' function will do nothing. In other words, no subtask is
         performed by this arbiter.
 
-        :param training_info: a dictionary holding training information
+        Parameters
+        ----------
+        training_info: a dictionary holding training information
         """
         pass
 
     def fit(self, data_instance=None):
+        """
+        Train lr model of role arbiter
+        Parameters
+        ----------
+        data_instance: DTable of Instance, input data
+        """
         if data_instance:
             self.header = data_instance.schema.get('header')
         else:
