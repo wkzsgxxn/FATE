@@ -13,11 +13,15 @@ intersect_config_file = home_dir + "/config/test_intersect_workflow.json"
 guest_import_data_file = home_dir + "/config/data/breast_b.csv"
 upload_config_file = home_dir + "/config/upload.json"
 hetero_lr_config_file = home_dir + "/config/hetero_lr.json"
+setting_file = home_dir + "/config/setting.json"
 
-guest_id = 9999
-host_id = 10000
-arbiter_id = 10000
-scene_id = 50000
+setting_json_file = open(setting_file, 'r', encoding='utf-8')
+setting_json_info = json.load(setting_json_file)
+guest_id = setting_json_info["guest_party_id"]
+host_id = setting_json_info["host_party_id"]
+arbiter_id = setting_json_info["arbiter_party_id"]
+scene_id = setting_json_info["scene_id"]
+
 
 intersect_output_name = ''
 intersect_output_namespace = ''
@@ -35,6 +39,7 @@ MAX_INTERSECT_TIME = 600
 MAX_TRAIN_TIME = 3600
 RETRY_JOB_STATUS_TIME = 5
 WORKFLOW_STATUS_CHECKER_TIME = 5
+MAX_READY_STATU_COUNT = 20
 DEFAULT_WORKFLOW_DATA_TYPE = ['train_input', 'data_input', 'id_library_input', 'model', 'predict_input',
                               'predict_output', 'evaluation_output', 'intersect_data_output']
 SUPPORT_HETERO_LR_TASK = ['train', 'predict', 'cross_validation']
@@ -242,6 +247,11 @@ def workflow_job_status_checker(jobid):
             return None
 
     workflow_status = SUCCESS
+    if len(check_data) < 2:
+        raise ValueError(
+            "[Workflow_Job_Status_checker] Current running role should larger than 1, but now it is {}, stop it and checker, current info:{}".format(
+                len(check_data), check_data))
+
     for res in check_data:
         status = res["status"]
         party_id = res['party_id']
@@ -257,7 +267,7 @@ def workflow_job_status_checker(jobid):
             print("[Workflow_Job_Status_checker] role:{}, party_id:{} status is success".format(role, party_id))
         elif status == READY:
             print("[Workflow_Job_Status_checker] role:{}, party_id:{} status is ready".format(role, party_id))
-            if status != FAIL:
+            if workflow_status != FAIL:
                 workflow_status = READY
         else:
             raise ValueError("[Workflow_Job_Status_checker] party_id:{} status is unknown:{}".format(party_id, status))
@@ -303,10 +313,17 @@ def intersect(config_file, guest_id, host_id, scene_id,
 
     cur_job_status = RUNNING
     workflow_job_status_counter = 0
+    ready_statu_count = 0
     while cur_job_status == RUNNING or cur_job_status == READY:
         time.sleep(WORKFLOW_STATUS_CHECKER_TIME)
         print("[Intersect] Start workflow job status checker:{}, jobid:{}".format(workflow_job_status_counter, jobid))
         cur_job_status = workflow_job_status_checker(jobid)
+        if cur_job_status == READY:
+            ready_statu_count += 1
+            if ready_statu_count > MAX_READY_STATU_COUNT:
+                raise ValueError(
+                    "[Workflow_Job_Status_checker] Reach max_ready_statu_count:{}, stop it and please check if something wrong happened".format(
+                        MAX_READY_STATU_COUNT))
         print("[Intersect] cur job status:{}".format(cur_job_status))
         end = time.time()
         if end - start > MAX_INTERSECT_TIME:
@@ -334,7 +351,6 @@ def train(config_file, scene_id, guest_id, host_id, arbiter_id, task):
 
     global eval_output_name
     global eval_output_namespace
-    local_time = time.localtime(time.time())
     str_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
     eval_output_name = "evaluation_output_name_" + str_time
     eval_output_namespace = "evaluation_output_namespace_" + str_time
@@ -347,10 +363,17 @@ def train(config_file, scene_id, guest_id, host_id, arbiter_id, task):
     jobid = parse_exec_task(stdout)["jobId"]
 
     cur_job_status = RUNNING
+    ready_statu_count = 0
     while cur_job_status == RUNNING or cur_job_status == READY:
         time.sleep(WORKFLOW_STATUS_CHECKER_TIME)
         cur_job_status = workflow_job_status_checker(jobid)
         print("[train] cur job status:{}, jobid:{}".format(cur_job_status, jobid))
+        if cur_job_status == READY:
+            ready_statu_count += 1
+            if ready_statu_count > MAX_READY_STATU_COUNT:
+                raise ValueError(
+                    "[Workflow_Job_Status_checker] Reach max_ready_statu_count:{}, stop it and please check if something wrong happened".format(
+                        MAX_READY_STATU_COUNT))
         end = time.time()
         if end - start > MAX_TRAIN_TIME:
             print("[train] reach max train time:{}, intersect task may be failed, and exit now")

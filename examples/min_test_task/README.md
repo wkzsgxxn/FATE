@@ -13,9 +13,21 @@ copy this to installation/example/
 >  cp -r min_test_task install_path/example/
 
 In Host, you should do this before guest
+>source /data/projects/fate/venv/bin/activate (depend on your install path)
+
+>export PYTHONPATH=/data/projects/fate/python (depend on your install path)
+
+then open min_test_task/config/setting.json, modify guest_party_id, host_party_id and arbiter_party_id. while scene_id if necessary
+
 >sh run.sh host fast
 
 In guest, make sure Host is finish
+>source /data/projects/fate/venv/bin/activate (depend on your install path) 
+
+>export PYTHONPATH=/data/projects/fate/python (depend on your install path)
+
+then open min_test_task/config/setting.json, modify guest_party_id, host_party_id and arbiter_party_id. while scene_id if necessary
+
 >sh run.sh guest fast
 
 After a short period of waiting time, you can see the test case is successfully or not.
