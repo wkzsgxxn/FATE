@@ -156,7 +156,8 @@ class PlainFTLGuestModel(PartyModelInterface):
         self.loss = loss
 
     def _update_loss(self):
-        uA_overlap = - self.uA_overlap / self.feature_dim
+        uA_overlap = - self.gamma * self.uA_overlap
+        # uA_overlap = - self.uA_overlap / self.feature_dim
         mapping_loss = np.sum(uA_overlap * self.uB_overlap)
         clf_loss = self.__compute_loss_y(self.uB_overlap, self.y_overlap, self.phi)
         repr_loss = 0.5 * self.repr_l2_param * np.sum(np.square(self.Wh))

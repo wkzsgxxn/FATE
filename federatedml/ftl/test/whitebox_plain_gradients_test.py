@@ -26,7 +26,7 @@ from federatedml.ftl.test.mock_models import MockAutoencoder, MockFTLModelParam
 def run_one_party_msg_exchange(autoencoderA, autoencoderB, U_A, U_B, y, overlap_indexes, non_overlap_indexes,
                                public_key=None, private_key=None, is_encrypted=False):
 
-    fake_model_param = MockFTLModelParam(alpha=1)
+    fake_model_param = MockFTLModelParam(alpha=1, l2_param=0)
     if is_encrypted:
         partyA = EncryptedFTLGuestModel(autoencoderA, fake_model_param, public_key=public_key, private_key=private_key)
         partyA.set_batch(U_A, y, non_overlap_indexes, overlap_indexes)

@@ -110,7 +110,7 @@ class EncryptedFTLGuestModel(PlainFTLGuestModel):
 
         enc_grad_A_nonoverlap = distribute_compute_XY(self.alpha * y_non_overlap / len(self.y), enc_const_nonoverlap)
         enc_grad_A_overlap = distribute_compute_XY_plus_Z(self.alpha * y_overlap / len(self.y), enc_const_overlap,
-                                                          self.enc_mapping_comp_B)
+                                                          self.gamma * self.enc_mapping_comp_B)
 
         if self.is_trace:
             self.logger.debug("enc_grad_A_nonoverlap shape" + str(enc_grad_A_nonoverlap.shape))
@@ -146,7 +146,8 @@ class EncryptedFTLGuestModel(PlainFTLGuestModel):
         self.loss = loss
 
     def _update_loss(self):
-        uA_overlap_prime = - self.uA_overlap / self.feature_dim
+        # uA_overlap_prime = - self.uA_overlap / self.feature_dim
+        uA_overlap_prime = - self.gamma * self.uA_overlap
         enc_mapping_loss = np.sum(distribute_compute_sum_XY(uA_overlap_prime, self.enc_uB_overlap))
         enc_clf_loss = self.__compute_encrypt_loss_y(self.enc_uB_overlap, self.enc_uB_overlap_2, self.y_overlap, self.phi)
         self.loss = self.alpha * enc_clf_loss + enc_mapping_loss
@@ -198,7 +199,8 @@ class EncryptedFTLHostModel(PlainFTLHostModel):
                                                            np.expand_dims(enc_uB_overlap, axis=1))
 
             # enc_mapping_comp_B has shape (len(overlap_indexes), feature_dim)
-            scale_factor = np.tile((-1 / self.feature_dim), (enc_uB_overlap.shape[0], enc_uB_overlap.shape[1]))
+            # scale_factor = np.tile((-1 / self.feature_dim), (enc_uB_overlap.shape[0], enc_uB_overlap.shape[1]))
+            scale_factor = np.tile(-1, (enc_uB_overlap.shape[0], enc_uB_overlap.shape[1]))
             enc_mapping_comp_B = distribute_compute_XY(enc_uB_overlap, scale_factor)
             # enc_mapping_comp_B = enc_uB_overlap * (-1 / self.feature_dim)
             # enc_mapping_comp_B = encrypt_matrix(self.public_key, self.mapping_comp_B)
@@ -224,7 +226,7 @@ class EncryptedFTLHostModel(PlainFTLHostModel):
         uB_overlap_ex = np.expand_dims(self.uB_overlap, axis=1)
         enc_uB_overlap_y_overlap_2_phi_2 = distribute_encrypt_matmul_3(uB_overlap_ex, self.enc_y_overlap_2_phi_2)
         enc_l1_grad_B = distribute_compute_X_plus_Y(np.squeeze(enc_uB_overlap_y_overlap_2_phi_2, axis=1), self.enc_y_overlap_phi)
-        enc_loss_grad_B = distribute_compute_X_plus_Y(self.alpha * enc_l1_grad_B, self.enc_mapping_comp_A)
+        enc_loss_grad_B = distribute_compute_X_plus_Y(self.alpha * enc_l1_grad_B, self.gamma * self.enc_mapping_comp_A)
 
         self.loss_grads = enc_loss_grad_B
         self.enc_grads_W, self.enc_grads_b = self.localModel.compute_encrypted_params_grads(

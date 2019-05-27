@@ -101,7 +101,7 @@ class FasterEncryptedFTLGuestModel(PlainFTLGuestModel):
 
         enc_grad_A_nonoverlap = distribute_compute_XY(self.alpha * y_non_overlap / len(self.y), enc_const_nonoverlap)
         enc_grad_A_overlap = distribute_compute_XY_plus_Z(self.alpha * y_overlap / len(self.y), enc_const_overlap,
-                                                          self.enc_mapping_comp_B)
+                                                          self.gamma * self.enc_mapping_comp_B)
 
         if self.is_trace:
             self.logger.debug("enc_grad_A_nonoverlap shape" + str(enc_grad_A_nonoverlap.shape))
@@ -136,7 +136,8 @@ class FasterEncryptedFTLGuestModel(PlainFTLGuestModel):
         self.loss = loss
 
     def _update_loss(self):
-        uA_overlap_prime = - self.uA_overlap / self.feature_dim
+        # uA_overlap_prime = - self.uA_overlap / self.feature_dim
+        uA_overlap_prime = - self.gamma * self.uA_overlap
         enc_loss_overlap = np.sum(distribute_compute_sum_XY(uA_overlap_prime, self.enc_uB_overlap))
         enc_loss_y = self.__compute_encrypt_loss_y(self.enc_uB_overlap, self.y_overlap, self.phi)
         self.loss = self.alpha * enc_loss_y + enc_loss_overlap
@@ -221,7 +222,7 @@ class FasterEncryptedFTLHostModel(PlainFTLHostModel):
             pass
 
         enc_l1_grad_B = distribute_compute_X_plus_Y(self.enc_uB_overlap_y_overlap_2_phi_2, self.enc_y_overlap_phi)
-        enc_loss_grad_B = distribute_compute_X_plus_Y(self.alpha * enc_l1_grad_B, self.enc_mapping_comp_A)
+        enc_loss_grad_B = distribute_compute_X_plus_Y(self.alpha * enc_l1_grad_B, self.gamma * self.enc_mapping_comp_A)
 
         self.loss_grads = enc_loss_grad_B
         self.enc_grads_W, self.enc_grads_b = self.localModel.compute_encrypted_params_grads(
